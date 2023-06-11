@@ -13,11 +13,6 @@ CREATE TABLE threat (
     critically_level_id     INTEGER         NOT NULL REFERENCES tcriticallylevel (id),
     type_id                 INTEGER         NOT NULL REFERENCES ttype (id)
 );
-CREATE TABLE type_threat (
-    id        INTEGER PRIMARY KEY AUTOINCREMENT,
-    threat_id INTEGER NOT NULL REFERENCES threat (id),
-    type_id   INTEGER NOT NULL REFERENCES ttype (id)
-);
 CREATE TABLE pversion (
     id   INTEGER                PRIMARY KEY AUTOINCREMENT,
     name VARCHAR (20)           NOT NULL UNIQUE
