@@ -11,8 +11,7 @@ package Ameaca.Entities;
 public class Threat {
 
     private String cve, discovery_date;
-    private TType type;
-    private int critically_level_id;
+    private int critically_level_id, type_id;
     //private Blob consequence, solution;
     private int id;
 
@@ -24,8 +23,8 @@ public class Threat {
         return discovery_date;
     }
 
-    public TType getType() {
-        return type;
+    public int getTypeID() {
+        return type_id;
     }
 
     public int getCriticallyLevelID() {
@@ -44,8 +43,8 @@ public class Threat {
         discovery_date = value;
     }
 
-    public void setThreatType(TType value) {
-        type = value;
+    public void setTypeID(int value) {
+        type_id = value;
     }
 
     public void setCriticallyLevelID(int value) {

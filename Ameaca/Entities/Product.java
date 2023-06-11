@@ -2,15 +2,15 @@ package Ameaca.Entities;
 
 public class Product {
 
-    private String name, version;
+    private String name, version_id;
     private int id;
 
     public String getName() {
         return name;
     }
 
-    public String getVersion() {
-        return version;
+    public String getVersionID() {
+        return version_id;
     }
 
     public int getID() {
@@ -21,7 +21,7 @@ public class Product {
         name = value;
     }
 
-    public void setVersion(String value) {
-        version = value;
+    public void setVersionID(String value) {
+        version_id = value;
     }
 }

@@ -110,7 +110,7 @@ public class Principal {
                     t.setCVE(cve);
                     t.setDiscoveryDate(discovery_date);
                     t.setCriticallyLevelID(cnumb);
-                    t.setThreatType(colecao.get(index - 1));
+                    t.setTypeID(index - 1);
                     th_service.add(t);
                     break;
                 case 2:

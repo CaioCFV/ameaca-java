@@ -8,9 +8,10 @@ CREATE TABLE tcriticallylevel (
 );
 CREATE TABLE threat (
     id                      INTEGER         PRIMARY KEY AUTOINCREMENT NOT NULL,
-    cve                     VARCHAR (200)   NOT NULL,
+    cve                     VARCHAR (14)    NOT NULL,
     discovery_date          DATETIME        NOT NULL,
-    critically_level_id     INTEGER         NOT NULL REFERENCES tcriticallylevel (id)
+    critically_level_id     INTEGER         NOT NULL REFERENCES tcriticallylevel (id),
+    type_id                 INTEGER         NOT NULL REFERENCES ttype (id)
 );
 CREATE TABLE type_threat (
     id        INTEGER PRIMARY KEY AUTOINCREMENT,
