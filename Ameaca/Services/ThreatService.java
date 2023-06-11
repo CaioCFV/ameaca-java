@@ -29,7 +29,7 @@ public class ThreatService {
         // var dvd = rep.get(d.getCodigo());
         // if (dvd != null) throw new BussinesException("DVD com codigo ja existente");
 
-        rep.inserir(t);
+        rep.insert(t);
     }
     // public void listThreat(){
     //     System.out.println("+-----+----------------+----------------------------+");

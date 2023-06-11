@@ -27,6 +27,7 @@ CREATE TABLE threat_product (
     product_id INTEGER          REFERENCES product (id) NOT NULL,
     threat_id  INTEGER REFERENCES threat (id) NOT NULL
 );
+
 INSERT INTO tcriticallylevel (name) values ('LOW');
 INSERT INTO tcriticallylevel (name) values ('MEDIUM');
 INSERT INTO tcriticallylevel (name) values ('HIGH');

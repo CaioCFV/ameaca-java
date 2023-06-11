@@ -9,7 +9,7 @@ public class ThreatRepository {
     private DatabaseConnection db = new DatabaseConnection();
     private Connection connection;
 
-    public void inserir(Threat t) {
+    public void insert(Threat t) {
         try {
             connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(

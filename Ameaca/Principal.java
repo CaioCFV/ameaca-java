@@ -3,6 +3,7 @@ package Ameaca;
 import Ameaca.Entities.TCriticallyLevel;
 import Ameaca.Entities.TType;
 import Ameaca.Entities.Threat;
+import Ameaca.Services.ProductService;
 import Ameaca.Services.ScanService;
 import Ameaca.Services.TTypeService;
 import Ameaca.Services.ThreatService;
@@ -55,12 +56,13 @@ public class Principal {
         ScanService s = new ScanService();
         int cmd;
 
-        System.out.println("1 - Inserir uma ameaça.");
-        System.out.println("2 - Remover uma ameaça.");
-        System.out.println("3 - Alterar dados de uma ameaça.");
-        System.out.println("4 - Listar todas as ameaças.");
-        System.out.println("5 - Listar as ameaças dado o nome do produto e sua versão");
-        System.out.println("6 - baixar patch de uma ameaça.");
+        System.out.println("1 - Registrar produtos.");
+        System.out.println("2 - Registrar ameaças.");
+        // System.out.println("2 - Remover uma ameaça.");
+        // System.out.println("3 - Alterar dados de uma ameaça.");
+        // System.out.println("4 - Listar todas as ameaças.");
+        // System.out.println("5 - Listar as ameaças dado o nome do produto e sua versão");
+        // System.out.println("6 - baixar patch de uma ameaça.");
         System.out.println("7 - Sair");
 
         cmd = s.nextInt();
@@ -75,12 +77,20 @@ public class Principal {
         // ThreatList th_list = new ThreatList();
         int cmd, cnumb, index;
         ThreatService th_service = new ThreatService();
-        String cve, discovery_date;
+        String cve, discovery_date, name, version;
         ScanService s = new ScanService();
         do {
             cmd = menuPanel();
             switch (cmd) {
                 case 1:
+                    System.out.println("Digite o nome do produto: ");
+                    name = s.nextString();
+                    System.out.println("Digite a versão do produto: ");
+                    version = s.nextString().toLowerCase();
+                    ProductService p_service = new ProductService();
+                    p_service.add(p);
+                    break;
+                case 2:
                     System.out.println("Digite o ano da ameaca: ");
                     cve = "CVE-" + s.nextString();
                     //validar se tem 4 digitos
@@ -112,11 +122,6 @@ public class Principal {
                     t.setCriticallyLevelID(cnumb);
                     t.setTypeID(index - 1);
                     th_service.add(t);
-                    break;
-                case 2:
-                    // cve = s.nextString();
-                    // th_list.removeThreat(cve);
-
                     break;
                 case 3:
                     // System.out.println("Digite o ID: ");
