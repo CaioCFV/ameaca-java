@@ -1,12 +1,15 @@
 package Ameaca;
 
+import Ameaca.Entities.Product;
 import Ameaca.Entities.TCriticallyLevel;
 import Ameaca.Entities.TType;
 import Ameaca.Entities.Threat;
+import Ameaca.Entities.Version;
 import Ameaca.Services.ProductService;
 import Ameaca.Services.ScanService;
 import Ameaca.Services.TTypeService;
 import Ameaca.Services.ThreatService;
+import Ameaca.Services.VersionService;
 import Ameaca.Types.TypeThreatLevel;
 import java.util.List;
 
@@ -75,7 +78,7 @@ public class Principal {
         // ThreatType type;
 
         // ThreatList th_list = new ThreatList();
-        int cmd, cnumb, index;
+        int cmd, cnumb, index, pid, vid;
         ThreatService th_service = new ThreatService();
         String cve, discovery_date, name, version;
         ScanService s = new ScanService();
@@ -84,11 +87,48 @@ public class Principal {
             switch (cmd) {
                 case 1:
                     System.out.println("Digite o nome do produto: ");
-                    name = s.nextString();
+                    name = s.nextString().trim();
                     System.out.println("Digite a versão do produto: ");
-                    version = s.nextString().toLowerCase();
-                    ProductService p_service = new ProductService();
-                    p_service.add(p);
+                    version = s.nextString().toLowerCase().trim();
+
+                    Product p = new Product();
+                    Version v = new Version();
+                    ProductService pService = new ProductService();
+                    VersionService vService = new VersionService();
+                    List<Product> foundedproducts = pService.findByName(name);
+                    List<Version> foundedversions = vService.findByName(version);
+
+                    if (foundedproducts.isEmpty()) {
+                        p.setName(name);
+                        pService.insert(p);
+                        foundedproducts = pService.findByName(name);
+                        pid = foundedproducts.get(0).getID();
+                        p.setID(pid);
+                    } else {
+                        pid = foundedproducts.get(0).getID();
+                        p.setID(pid);
+                    }
+
+                    foundedproducts = pService.getVersions(version, p);
+                    System.out.println(foundedproducts.isEmpty());
+                    if (foundedproducts.isEmpty()) {
+                        if (foundedversions.isEmpty()) {
+                            v.setName(version);
+                            vService.insert(v);
+                            foundedversions = vService.findByName(version);
+                            System.out.println(
+                                foundedversions.get(0).getID() + " - " + foundedversions.size()
+                            );
+                            vid = foundedversions.get(0).getID();
+                            v.setID(vid);
+                        } else {
+                            vid = foundedversions.get(0).getID();
+                            v.setID(vid);
+                        }
+                        pService.addVersion(p, v);
+                    } else {
+                        System.out.println("Já existe produto com a versão selecionada");
+                    }
                     break;
                 case 2:
                     System.out.println("Digite o ano da ameaca: ");

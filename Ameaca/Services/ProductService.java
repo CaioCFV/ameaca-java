@@ -1,13 +1,23 @@
 package Ameaca.Services;
 
 import Ameaca.Entities.Product;
+import Ameaca.Entities.Version;
 import Ameaca.Repositories.ProductRepository;
+import java.util.List;
 
 public class ProductService {
 
     private ProductRepository rep = new ProductRepository();
 
-    public void add(Product p) {
+    public List<Product> getVersions(String version, Product p) {
+        return rep.getVersions(version, p);
+    }
+
+    public List<Product> findByName(String parte) {
+        return rep.list(parte);
+    }
+
+    public void insert(Product p) {
         // if (d.getTitulo().length() < 2) throw new BussinesException(
         //     "Titulo deve ter mais de 1 caracter"
         // );
@@ -25,6 +35,10 @@ public class ProductService {
         // var dvd = rep.get(d.getCodigo());
         // if (dvd != null) throw new BussinesException("DVD com codigo ja existente");
 
-        rep.inserir(p);
+        rep.insert(p);
+    }
+
+    public void addVersion(Product p, Version v) {
+        rep.addVersion(p, v);
     }
 }

@@ -14,7 +14,7 @@ public class VersionRepository {
         try {
             connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(
-                "insert into threat(name) values (?)"
+                "insert into pversion (name) values (?)"
             );
             statement.setString(1, v.getName());
             statement.executeUpdate();
@@ -29,7 +29,7 @@ public class VersionRepository {
         try {
             connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(
-                "select id, name from version where name=?"
+                "select id, name from pversion where name=?"
             );
             statement.setString(1, name);
             ResultSet rs = statement.executeQuery();

@@ -12,7 +12,7 @@ public class VersionService {
         return rep.list(parte);
     }
 
-    public void add(Version v) {
+    public void insert(Version v) {
         // if (d.getTitulo().length() < 2) throw new BussinesException(
         //     "Titulo deve ter mais de 1 caracter"
         // );
