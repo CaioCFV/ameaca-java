@@ -14,17 +14,6 @@ import Ameaca.Services.ThreatService;
 // 5. listar as ameacas dado o nome do produto e sua versao
 // 6. baixar patch de uma ameaca
 
-// os dados das ameacas são:
-// numero do CVE (ex: CVE-2023-31145)
-// Produto (nome do produto vulneravel)
-// Versao  (versao do prooduto vulneravel)
-// Tipo  (tipo de ameaca (Spam, Worm, Virus, Trrojan, DDOS,  Ramsoware, etc...)
-// Criticidade (nivel de citicidade)
-// Data  (data da descoberta)
-// PathCorrecao (arquivo a ser executado para resolver) (arquivo zip)
-// Solucao (texto grande contendo os passos para resolver)
-// Consequencia (PDF com as possiveis consequencias se esta ameaca nao for mitigada)
-
 // pre-requisitor para a analise de qualquer pontuacao:
 // 1. programa estar compilando
 // 2. programa ser entregue no prazo
@@ -55,88 +44,6 @@ import Ameaca.Services.ThreatService;
 // assunto do email: trab ist prj 2023 01
 // no corpo de email deve ter o nome do integrantes do trabalho.
 
-// import Ameaca.Entities.*;
-
-// import java.sql.*;
-// import java.util.*;
-// import java.io.*;
-
-// private static final String _NOME_BANCO_ = "dados.db";
-// private Connection _con;
-// public DVDRepository()
-// {
-//    try {
-//        Class.forName("org.sqlite.JDBC");
-//        File f = new File(_NOME_BANCO_);
-//        if (!f.exists())
-//           criarBanco();
-//   }catch(Exception e)
-//   {
-//      e.printStackTrace();
-//      System.exit(0);
-//   }
-// }
-
-// private void criarBanco()
-// {
-//   try{
-//        conectar();
-//      Statement statement = _con.createStatement();
-//        statement.executeUpdate("create table dvd (codigo int not null, titulo VARCHAR(50), ano int, duracao int, estilo varchar(20), CONSTRAINT codigo_unico PRIMARY KEY (codigo))");
-//        desconectar();
-//   }catch(Exception e)
-//   {
-//      e.printStackTrace();
-//      System.exit(0);
-//   }
-// }
-
-// private Connection conectar()
-// {
-//    try{
-//       if (_con==null)
-//          _con = DriverManager.getConnection("jdbc:sqlite:"+_NOME_BANCO_);
-//       return _con;
-//   }catch(Exception e)
-//   {
-//      e.printStackTrace();
-//      System.exit(0);
-//      return null;
-//   }
-// }
-
-// private void desconectar()
-// {
-//    try{
-//       _con.close();
-//       _con = null;
-//   }catch(Exception e)
-//   {
-//      e.printStackTrace();
-//      System.exit(0);
-//   }
-// }
-
-// public void inserir(DVD d)
-// {
-//     try{
-//         conectar();
-//         PreparedStatement statement = _con.prepareStatement("insert into dvd(codigo,titulo,ano,duracao,estilo) values (?,?,?,?,?)");
-//         statement.setInt(1, d.getCodigo());
-//         statement.setString(2, d.getTitulo());
-//         statement.setInt(3, d.getAno());
-//         statement.setInt(4, d.getDuracao());
-//         statement.setString(5, d.getEstilo());
-//     statement.executeUpdate();
-//         desconectar();
-//     }catch(Exception e){
-//     e.printStackTrace();
-//     System.exit(0);
-// }
-// }
-
-// import Ameacas.Tela.*;
-
 public class Principal {
 
     public static int menuPanel() {
@@ -157,22 +64,33 @@ public class Principal {
 
     public static void main(String args[]) {
         // ScanService s = new ScanService();
-        // String cve, product_name, version, discovery_date, path, solution, consequence;
+        // String cve, product_name, version, , path, solution, consequence;
         // ThreatType type;
         // ThreatLevel criticality;
         // ThreatList th_list = new ThreatList();
         int cmd;
         ThreatService th_service = new ThreatService();
-        String cve;
+        String cve, discovery_date;
         ScanService s = new ScanService();
         do {
             cmd = menuPanel();
             switch (cmd) {
                 case 1:
-                    System.out.println("Digite o CVE da ameaça: ");
-                    cve = s.nextString();
+                    System.out.println("Digite o ano da ameaca: ");
+                    cve = "CVE-" + s.nextString();
+                    //validar se tem 4 digitos
+                    System.out.println("Digite o codigo de 5 digitos ameaca: ");
+                    //validar se tem 5 digitos
+                    cve += "-" + s.nextString();
+                    System.out.println("Digite o dia da descoberta: ");
+                    discovery_date = s.nextString() + '/';
+                    System.out.println("Digite o mes da descoberta: ");
+                    discovery_date += s.nextString() + '/';
+                    System.out.println("Digite o ano da descoberta: ");
+                    discovery_date += s.nextString();
                     Threat t = new Threat();
                     t.setCVE(cve);
+                    t.setDiscoveryDate(discovery_date);
                     th_service.add(t);
                     // System.out.println("Digite o nome do produto: ");
                     // productName = s.nextString();

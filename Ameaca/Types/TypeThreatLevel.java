@@ -1,7 +1,7 @@
 package Ameaca.Types;
 
-public enum ThreatLevel {
+public enum TypeThreatLevel {
     LOW,
     MEDIUM,
     HIGH
-};
+}

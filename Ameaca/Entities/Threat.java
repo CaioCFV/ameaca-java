@@ -1,7 +1,6 @@
 package Ameaca.Entities;
 
-import Ameaca.Types.ThreatLevel;
-import Ameaca.Types.ThreatType;
+import Ameaca.Types.TypeThreatLevel;
 
 // numero do CVE (ex: CVE-2023-31145)
 // Tipo da ameaca (tipo de ameaca (Spam, Worm, Virus, Trrojan, DDOS,  Ramsoware, etc...)
@@ -14,8 +13,8 @@ import Ameaca.Types.ThreatType;
 public class Threat {
 
     private String cve, discovery_date;
-    private ThreatType type;
-    private ThreatLevel critically_level;
+    private TType type;
+    private TypeThreatLevel critically_level;
     //private Blob consequence, solution;
     private int id;
 
@@ -27,11 +26,11 @@ public class Threat {
         return discovery_date;
     }
 
-    public ThreatType getType() {
+    public TType getType() {
         return type;
     }
 
-    public ThreatLevel setCriticallyLevel() {
+    public TypeThreatLevel setCriticallyLevel() {
         return critically_level;
     }
 
@@ -47,11 +46,11 @@ public class Threat {
         discovery_date = value;
     }
 
-    public void setThreatType(ThreatType value) {
+    public void setThreatType(TType value) {
         type = value;
     }
 
-    public void setCriticallyLevel(ThreatLevel value) {
+    public void setCriticallyLevel(TypeThreatLevel value) {
         critically_level = value;
     }
 }

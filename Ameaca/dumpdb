@@ -1,27 +1,23 @@
 CREATE TABLE ttype (
     id   INTEGER    PRIMARY KEY AUTOINCREMENT,
-    name TEXT (100) UNIQUE
-                    NOT NULL
+    name TEXT (100) UNIQUE NOT NULL
 );
 CREATE TABLE tcriticallylevel (
     id   INTEGER   PRIMARY KEY AUTOINCREMENT,
-    name TEXT (10) UNIQUE
-                   NOT NULL
+    name TEXT (10) UNIQUE NOT NULL
 );
 CREATE TABLE threat (
     id  INTEGER                 PRIMARY KEY AUTOINCREMENT
                                 NOT NULL,
     cve VARCHAR (200)           NOT NULL,
-    discovery_date VARCHAR (10) NOT NULL,
-    consequence BLOB            NOT NULL,
-    solution    BLOB            NOT NULL,
+    discovery_date              DATETIME NOT NULL
     type_id                     INTEGER       REFERENCES ttype (id),
-    critically_level_id         INTEGER       REFERENCES tcriticallylevel (id) 
+    critically_level_id         INTEGER       REFERENCES tcriticallylevel (id) 1
 );
 CREATE TABLE type_threat (
     id        INTEGER PRIMARY KEY AUTOINCREMENT,
     threat_id INTEGER REFERENCES threat (id),
-    type_id   INTEGER REFERENCES type (id) 
+    type_id   INTEGER REFERENCES type (id)
 );
 CREATE TABLE version (
     id   INTEGER                PRIMARY KEY AUTOINCREMENT,
@@ -38,3 +34,5 @@ CREATE TABLE threat_product (
     threat_id  INTEGER REFERENCES threat (id) NOT NULL
 );
 EXIT
+    -- consequence BLOB            NOT NULL,
+    -- solution    BLOB            NOT NULL,
