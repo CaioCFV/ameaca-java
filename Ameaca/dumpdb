@@ -1,38 +1,46 @@
 CREATE TABLE ttype (
-    id   INTEGER    PRIMARY KEY AUTOINCREMENT,
-    name TEXT (100) UNIQUE NOT NULL
+    id                      INTEGER         PRIMARY KEY AUTOINCREMENT,
+    name                    TEXT (100)      UNIQUE NOT NULL
 );
 CREATE TABLE tcriticallylevel (
-    id   INTEGER   PRIMARY KEY AUTOINCREMENT,
-    name TEXT (10) UNIQUE NOT NULL
+    id                      INTEGER         PRIMARY KEY AUTOINCREMENT,
+    name                    VARCHAR (10)    UNIQUE NOT NULL
 );
 CREATE TABLE threat (
-    id  INTEGER                 PRIMARY KEY AUTOINCREMENT
-                                NOT NULL,
-    cve VARCHAR (200)           NOT NULL,
-    discovery_date              DATETIME NOT NULL
-    type_id                     INTEGER       REFERENCES ttype (id),
-    critically_level_id         INTEGER       REFERENCES tcriticallylevel (id) 1
+    id                      INTEGER         PRIMARY KEY AUTOINCREMENT NOT NULL,
+    cve                     VARCHAR (200)   NOT NULL,
+    discovery_date          DATETIME        NOT NULL,
+    critically_level_id     INTEGER         NOT NULL REFERENCES tcriticallylevel (id)
 );
 CREATE TABLE type_threat (
     id        INTEGER PRIMARY KEY AUTOINCREMENT,
-    threat_id INTEGER REFERENCES threat (id),
-    type_id   INTEGER REFERENCES type (id)
+    threat_id INTEGER NOT NULL REFERENCES threat (id),
+    type_id   INTEGER NOT NULL REFERENCES ttype (id)
 );
-CREATE TABLE version (
+CREATE TABLE pversion (
     id   INTEGER                PRIMARY KEY AUTOINCREMENT,
     name VARCHAR (20)           NOT NULL UNIQUE
 );
 CREATE TABLE product (
     id         INTEGER          PRIMARY KEY AUTOINCREMENT,
     name       VARCHAR (150)    UNIQUE NOT NULL,
-    version_id INTEGER          REFERENCES version (id) NOT NULL
+    version_id INTEGER          REFERENCES pversion (id) NOT NULL
 );
 CREATE TABLE threat_product (
     id         INTEGER          PRIMARY KEY AUTOINCREMENT,
     product_id INTEGER          REFERENCES product (id) NOT NULL,
     threat_id  INTEGER REFERENCES threat (id) NOT NULL
 );
+INSERT INTO tcriticallylevel (name) values ('LOW');
+INSERT INTO tcriticallylevel (name) values ('MEDIUM');
+INSERT INTO tcriticallylevel (name) values ('HIGH');
+
+INSERT INTO ttype (name) values ('Spam');
+INSERT INTO ttype (name) values ('Worm');
+INSERT INTO ttype (name) values ('Virus');
+INSERT INTO ttype (name) values ('DDOS');
+INSERT INTO ttype (name) values ('Ramsoware');
+
 EXIT
     -- consequence BLOB            NOT NULL,
     -- solution    BLOB            NOT NULL,

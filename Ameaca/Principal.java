@@ -1,8 +1,13 @@
 package Ameaca;
 
+import Ameaca.Entities.TCriticallyLevel;
+import Ameaca.Entities.TType;
 import Ameaca.Entities.Threat;
 import Ameaca.Services.ScanService;
+import Ameaca.Services.TTypeService;
 import Ameaca.Services.ThreatService;
+import Ameaca.Types.TypeThreatLevel;
+import java.util.List;
 
 // Voce foi contratado pela Fature, para fazer um sistema de gerenciamento de ameaças
 // neste sistem deve ser possivel realizar as seguintes operacoes.
@@ -66,9 +71,9 @@ public class Principal {
         // ScanService s = new ScanService();
         // String cve, product_name, version, , path, solution, consequence;
         // ThreatType type;
-        // ThreatLevel criticality;
+
         // ThreatList th_list = new ThreatList();
-        int cmd;
+        int cmd, cnumb, index;
         ThreatService th_service = new ThreatService();
         String cve, discovery_date;
         ScanService s = new ScanService();
@@ -88,13 +93,25 @@ public class Principal {
                     discovery_date += s.nextString() + '/';
                     System.out.println("Digite o ano da descoberta: ");
                     discovery_date += s.nextString();
+                    System.out.println(
+                        "Digite o nivel de criticidade:  1 - LOW, 2 - MEDIUM, 3 - HIGH"
+                    );
+                    cnumb = s.nextInt();
+                    System.out.println("Selecione um tipo de ameaça:");
+                    TTypeService tt_service = new TTypeService();
+                    List<TType> colecao = tt_service.listar();
+                    index = 0;
+                    for (TType d : colecao) {
+                        System.out.println(index + 1 + " - " + d.getName());
+                        index++;
+                    }
+                    index = s.nextInt();
                     Threat t = new Threat();
                     t.setCVE(cve);
                     t.setDiscoveryDate(discovery_date);
+                    t.setCriticallyLevelID(cnumb);
+                    t.setThreatType(colecao.get(index - 1));
                     th_service.add(t);
-                    // System.out.println("Digite o nome do produto: ");
-                    // productName = s.nextString();
-                    // t.setProductName(productName);
                     break;
                 case 2:
                     // cve = s.nextString();

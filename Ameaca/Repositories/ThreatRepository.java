@@ -13,10 +13,11 @@ public class ThreatRepository {
         try {
             connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(
-                "insert into threat(cve,discovery_date) values (?,?)"
+                "insert into threat(cve,discovery_date, critically_level_id) values (?,?,?,?)"
             );
             statement.setString(1, t.getCVE());
             statement.setString(2, t.getDiscoveryDate());
+            statement.setInt(3, t.getCriticallyLevelID());
             statement.executeUpdate();
             db.closeConection();
         } catch (Exception e) {

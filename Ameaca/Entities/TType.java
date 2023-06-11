@@ -16,4 +16,8 @@ public class TType {
     public void setName(String value) {
         name = value;
     }
+
+    public void setID(int value) {
+        id = value;
+    }
 }
