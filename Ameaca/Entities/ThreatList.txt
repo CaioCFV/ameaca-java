@@ -9,7 +9,6 @@ public class ThreatList {
     public void addThreat(String cve, String product_name) {
         Threat th = new Threat();
         th.setCVE(cve);
-        th.setProductName(product_name);
         threat_list[threat_quantity] = th;
         threat_quantity++;
     }
