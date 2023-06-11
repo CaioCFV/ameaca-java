@@ -1,0 +1,28 @@
+1
+CVE-2023-00001
+Windows XP
+1
+CVE-2023-00002
+Windows Vista
+1
+CVE-2023-00003
+Windows 8
+1
+CVE-2023-00004
+Windows 10
+1
+CVE-2023-00008
+Windows 15
+1
+CVE-2023-00084
+Iphone 13
+4
+2
+Windows XP
+4
+3
+4
+CVE-2023-10100
+Playstation F
+4
+7

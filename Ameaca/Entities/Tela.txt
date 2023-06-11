@@ -1,0 +1,69 @@
+package Ameaca.Tela;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+
+public class Tela extends JFrame{  
+    public Tela(){
+        setTitle("Toma nu cu");
+        setSize(700,500);
+        //getContentPane().setBackground(Color.BLACK);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+    } 
+   
+    public void init(){
+        Container  c = getContentPane();
+        CardLayout cardlayout = new CardLayout(30,30);
+
+        this.setVisible(true);
+        // JMenuBar menuBar = new JMenuBar();
+
+
+        JToolBar toolbar = new JToolBar();  
+        JButton button = new JButton("File");  
+        toolbar.add(button);
+        toolbar.setRollover(true);  
+        toolbar.addSeparator();  
+        toolbar.add(new JButton("Edit"));  
+        toolbar.add(new JComboBox(new String[] { "Opt-1", "Opt-2", "Opt-3", "Opt-4" }));  
+
+        JPanel panelAbout = new JPanel();
+        panelAbout.add(new JLabel("TELA DE SOBRE"));
+        panelAbout.setVisible(true);
+
+
+        JPanel panelImport = new JPanel();
+        panelImport.add(new JLabel("TELA DE IMPRT"));
+        panelImport.setVisible(true);
+
+        JMenu about = new JMenu("Sobres");
+        JMenu importM = new JMenu("import");
+
+        getContentPane().add(toolbar, BorderLayout.NORTH);
+        about.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                cardlayout.show(c, "panelAbout");
+            }
+        });
+
+        // menuBar.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+        // menuBar.add(about);
+        // menuBar.add(importM);
+        // menuBar.add(Box.createHorizontalGlue());
+        // menuBar.revalidate();
+        
+
+        importM.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                cardlayout.show(c, "panelImport");
+            }
+        });
+       
+        c.setLayout(cardlayout);
+       // add("panelAbout", panelAbout);
+        //add("panelImport",panelImport);
+        
+    }
+}

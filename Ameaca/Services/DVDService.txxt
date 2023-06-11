@@ -1,0 +1,91 @@
+package Locadora.Services;
+
+import Locadora.Repositories.*;
+import Locadora.Entities.*;
+import java.util.*;
+
+public class DVDService
+{
+     private DVDRepository rep = new DVDRepository();
+
+     public void inserir(DVD d)
+     {
+         if (d.getTitulo().length()<2)
+            throw new BussinesException("Titulo deve ter mais de 1 caracter");
+         if (d.getEstilo().length()<5)
+            throw new BussinesException("O Estilo deve ter mais de 5 caractere");
+         if (d.getDuracao() < 1 || d.getDuracao() > 1000)
+            throw new BussinesException("DVD com duração invalida");
+         if (d.getAno() < 1900 || d.getAno() > 2050)
+            throw new BussinesException("DVD com ano invalido");
+	   if (d.getCodigo()<1)
+            throw new BussinesException("DVD com codigo invalido");
+	   
+	   var dvd = rep.get(d.getCodigo());
+         if (dvd!=null)
+            throw new BussinesException("DVD com codigo ja existente");
+	
+         rep.inserir(d);
+     }
+
+     public void alterar(int cod, DVD d)
+     {
+         if (d.getTitulo().length()<2)
+            throw new BussinesException("Titulo deve ter mais de 1 caracter");
+         if (d.getEstilo().length()<5)
+            throw new BussinesException("O Estilo deve ter mais de 5 caractere");
+         if (d.getDuracao() < 1 || d.getDuracao() > 1000)
+            throw new BussinesException("DVD com duração invalida");
+         if (d.getAno() < 1900 || d.getAno() > 2050)
+            throw new BussinesException("DVD com ano invalido");
+	   if (d.getCodigo()<1)
+            throw new BussinesException("DVD com codigo invalido");
+
+	   var dvd = rep.get(cod);
+	   if (dvd == null)
+             throw new BussinesException("DVD não encontrado para alteração");
+
+         if (cod!=d.getCodigo() && rep.get(d.getCodigo())!=null)
+            throw new BussinesException("DVD com codigo ja existente");
+	
+         rep.alterar(cod, d);
+     }
+    
+     public void remover(int cod)
+     {
+	   var dvd = rep.get(cod);
+	   if (dvd == null)
+             throw new BussinesException("DVD não encontrado para remoção");
+	   rep.remover(cod);
+     }
+
+     public DVD obterPeloCodigo(int cod)
+     {
+	    return rep.get(cod);
+     }
+
+     public Iterable<DVD> listar()
+     {
+         return rep.listar(); 
+     }	
+
+     public Iterable<DVD> listar(String parte)
+     {
+         List<DVD> lista = new LinkedList<DVD>();
+	   for(DVD d : rep.listar())
+         {
+            if (d.getTitulo().contains(parte) || d.getEstilo().contains(parte))
+		    lista.add(d);
+         }
+	   return lista;
+     }
+     public boolean existe(int cod)
+     {
+         return rep.get(cod)!=null;
+     } 	
+     public double aluguel(int cod)
+     {
+         DVD d = rep.get(cod);
+	   return d!=null?d.getAluguel():0;
+     }
+} 
