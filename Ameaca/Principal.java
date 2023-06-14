@@ -1,17 +1,8 @@
 package Ameaca;
 
-import Ameaca.Entities.Product;
-import Ameaca.Entities.TCriticallyLevel;
-import Ameaca.Entities.TType;
-import Ameaca.Entities.Threat;
-import Ameaca.Entities.Version;
-import Ameaca.Services.ProductService;
-import Ameaca.Services.ScanService;
-import Ameaca.Services.TTypeService;
-import Ameaca.Services.ThreatService;
-import Ameaca.Services.VersionService;
-import Ameaca.Types.TypeThreatLevel;
-import java.util.List;
+import Ameaca.Services.*;
+import Ameaca.Views.*;
+import javax.swing.JOptionPane;
 
 // Voce foi contratado pela Fature, para fazer um sistema de gerenciamento de ameaças
 // neste sistem deve ser possivel realizar as seguintes operacoes.
@@ -73,146 +64,70 @@ public class Principal {
     }
 
     public static void main(String args[]) {
+        try {
+            MainGUI mainGUI = new MainGUI();
+            mainGUI.init();
+        } catch (BussinesException err) {
+            JOptionPane.showMessageDialog(
+                null,
+                err.getMessage(),
+                "Erro",
+                JOptionPane.WARNING_MESSAGE
+            );
+        } catch (Exception err) {
+            JOptionPane.showMessageDialog(
+                null,
+                "Erro não esperado! entre em contato com os desenvolvedores\n\n" + err.getMessage(),
+                "Erro Crítico",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
         // ScanService s = new ScanService();
         // String cve, product_name, version, , path, solution, consequence;
         // ThreatType type;
-
         // ThreatList th_list = new ThreatList();
-        int cmd, cnumb, index, pid, vid;
-        ThreatService th_service = new ThreatService();
-        String cve, discovery_date, name, version;
-        ScanService s = new ScanService();
-        do {
-            cmd = menuPanel();
-            switch (cmd) {
-                case 1:
-                    System.out.println("Digite o nome do produto: ");
-                    name = s.nextString().trim();
-                    System.out.println("Digite a versão do produto: ");
-                    version = s.nextString().toLowerCase().trim();
+        // int cmd, cnumb, index, pid, vid;
+        // ThreatService th_service = new ThreatService();
+        // String cve, discovery_date, name, version, versionsV;
+        // ScanService s = new ScanService();
 
-                    Product p = new Product();
-                    Version v = new Version();
-                    ProductService pService = new ProductService();
-                    VersionService vService = new VersionService();
-                    List<Product> foundedproducts = pService.findByName(name);
-                    List<Version> foundedversions = vService.findByName(version);
+        // Tela te = new Tela();
+        // te.init();
 
-                    if (foundedproducts.isEmpty()) {
-                        p.setName(name);
-                        pService.insert(p);
-                        foundedproducts = pService.findByName(name);
-                        pid = foundedproducts.get(0).getID();
-                        p.setID(pid);
-                    } else {
-                        pid = foundedproducts.get(0).getID();
-                        p.setID(pid);
-                    }
+        // do {
+        //     cmd = menuPanel();
+        //     switch (cmd) {
+        //         case 1:
 
-                    foundedproducts = pService.getVersions(version, p);
-                    System.out.println(foundedproducts.isEmpty());
-                    if (foundedproducts.isEmpty()) {
-                        if (foundedversions.isEmpty()) {
-                            v.setName(version);
-                            vService.insert(v);
-                            foundedversions = vService.findByName(version);
-                            System.out.println(
-                                foundedversions.get(0).getID() + " - " + foundedversions.size()
-                            );
-                            vid = foundedversions.get(0).getID();
-                            v.setID(vid);
-                        } else {
-                            vid = foundedversions.get(0).getID();
-                            v.setID(vid);
-                        }
-                        pService.addVersion(p, v);
-                    } else {
-                        System.out.println("Já existe produto com a versão selecionada");
-                    }
-                    break;
-                case 2:
-                    System.out.println("Digite o ano da ameaca: ");
-                    cve = "CVE-" + s.nextString();
-                    //validar se tem 4 digitos
-                    System.out.println("Digite o codigo de 5 digitos ameaca: ");
-                    //validar se tem 5 digitos
-                    cve += "-" + s.nextString();
-                    System.out.println("Digite o dia da descoberta: ");
-                    discovery_date = s.nextString() + '/';
-                    System.out.println("Digite o mes da descoberta: ");
-                    discovery_date += s.nextString() + '/';
-                    System.out.println("Digite o ano da descoberta: ");
-                    discovery_date += s.nextString();
-                    System.out.println(
-                        "Digite o nivel de criticidade:  1 - LOW, 2 - MEDIUM, 3 - HIGH"
-                    );
-                    cnumb = s.nextInt();
-                    System.out.println("Selecione um tipo de ameaça:");
-                    TTypeService tt_service = new TTypeService();
-                    List<TType> colecao = tt_service.listar();
-                    index = 0;
-                    for (TType d : colecao) {
-                        System.out.println(index + 1 + " - " + d.getName());
-                        index++;
-                    }
-                    index = s.nextInt();
-                    Threat t = new Threat();
-                    t.setCVE(cve);
-                    t.setDiscoveryDate(discovery_date);
-                    t.setCriticallyLevelID(cnumb);
-                    t.setTypeID(index - 1);
-                    th_service.add(t);
-                    break;
-                case 3:
-                    // System.out.println("Digite o ID: ");
-                    // id = s.nextInt();
-                    // System.out.println("Digite o CVE da ameaça: ");
-                    // cve = s.nextString();
-                    // System.out.println("Digite o nome do produto: ");
-                    // product_name = s.nextString();
+        //             break;
+        //         case 2:
+        //
+        //         case 3:
+        //             // System.out.println("Digite o ID: ");
+        //             // id = s.nextInt();
+        //             // System.out.println("Digite o CVE da ameaça: ");
+        //             // cve = s.nextString();
+        //             // System.out.println("Digite o nome do produto: ");
+        //             // product_name = s.nextString();
 
-                    // th_list.updateThreat(id, cve, product_name);
-                    break;
-                case 4:
-                    // th_list.listThreat();
-                    break;
-                case 5:
-                    //System.out.println("Você selecionou inserir.");
-                    break;
-                case 6:
-                    //System.out.println("Listar as ameaças dado o nome do produto e sua versão.");
-                    break;
-                case 7:
-                    //System.out.println("OBRIGADO POR ULTILIZAR ESSE LIXO DE PROGRAMA");
-                    break;
-                default:
-                    //System.out.println("Digita uma opção valida o burro");
-                    break;
-            }
-        } while (cmd != 7);
+        //             // th_list.updateThreat(id, cve, product_name);
+        //             break;
+        //         case 4:
+        //             // th_list.listThreat();
+        //             break;
+        //         case 5:
+        //             //System.out.println("Você selecionou inserir.");
+        //             break;
+        //         case 6:
+        //             //System.out.println("Listar as ameaças dado o nome do produto e sua versão.");
+        //             break;
+        //         case 7:
+        //             //System.out.println("OBRIGADO POR ULTILIZAR ESSE LIXO DE PROGRAMA");
+        //             break;
+        //         default:
+        //             //System.out.println("Digita uma opção valida o burro");
+        //             break;
+        //     }
+        // } while (cmd != 7);
     }
 }
-// Produto:
-//    ID INT AUTOINCREMENT PRIMARY KEY not null,
-//    Produto VARCHAR(50)
-// Versao:
-//    ID INT AUTOINCREMENT PRIMARY KEY not null,
-//    IdProduto int foreing key Produto (id)
-//    Versao VARCHAR(20)
-// Tipo:
-//    ID INT AUTOINCREMENT PRIMARY KEY not null,
-//    Tipo VARCHAR(30)
-// Criticidade:
-//    ID INT AUTOINCREMENT PRIMARY KEY not null,
-//    Criticiade VARCHAR(30)
-// Ameaca:
-//    ID INT AUTOINCREMENT PRIMARY KEY,
-//    CVE VARCHAR(20),
-//    IdProduto int foreing key Produto (id)
-//    IdVersao  int foreing key Versao (id)
-//    IdTipo int foreing key Tipo (id)
-//    IdCriticidade int foreing key Criticidade (id)
-//    Data  DATTIME,
-//    PathCorrecao BLOB,
-//    Solucao BLOB,
-//    Consequencia BLOB

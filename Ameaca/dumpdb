@@ -26,10 +26,11 @@ CREATE TABLE version_product (
     product_id  INTEGER          REFERENCES product (id) NOT NULL,
     version_id  INTEGER          REFERENCES pversion (id) NOT NULL
 );
-CREATE TABLE threat_product (
+CREATE TABLE threat_product_version (
     id         INTEGER          PRIMARY KEY AUTOINCREMENT,
     product_id INTEGER          REFERENCES product (id) NOT NULL,
-    threat_id  INTEGER          REFERENCES threat (id) NOT NULL
+    threat_id  INTEGER          REFERENCES threat (id) NOT NULL,
+    version_id INTEGER          REFERENCES pversion(id) NOT NULL
 );
 INSERT INTO tcriticallylevel (name) values ('LOW');
 INSERT INTO tcriticallylevel (name) values ('MEDIUM');

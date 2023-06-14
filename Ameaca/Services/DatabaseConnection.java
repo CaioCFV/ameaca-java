@@ -5,8 +5,7 @@ import java.sql.*;
 
 public class DatabaseConnection {
 
-    private static final double v = Math.ceil(Math.random() * 100);
-    private static final String _DB_NAME = "threatdata-" + v + ".db";
+    private static final String _DB_NAME = "threatdata.db";
     private static Connection connection;
 
     public DatabaseConnection() {

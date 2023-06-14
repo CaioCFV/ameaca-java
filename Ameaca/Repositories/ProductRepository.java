@@ -67,6 +67,29 @@ public class ProductRepository {
         }
     }
 
+    public List<Product> list() {
+        try {
+            connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "select id, name from product"
+            );
+            ResultSet rs = statement.executeQuery();
+            List<Product> list = new LinkedList<Product>();
+            while (rs.next()) {
+                Product p = new Product();
+                p.setID(rs.getInt(1));
+                p.setName(rs.getString(2));
+                list.add(p);
+            }
+            db.closeConection();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+            return null;
+        }
+    }
+
     public List<Product> getVersions(String version, Product p) {
         try {
             connection = db.getConnection();
@@ -82,6 +105,37 @@ public class ProductRepository {
                 p.setID(rs.getInt(1));
                 p.setName(rs.getString(2));
                 list.add(p);
+            }
+            db.closeConection();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+            return null;
+        }
+    }
+
+    public List<Version> getVersionsByProduct(Product p) {
+        ResultSet rs, rs2;
+        Version v;
+        try {
+            connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "select version_id, product_id from version_product where product_id=?"
+            );
+            statement.setInt(1, p.getID());
+            rs = statement.executeQuery();
+            List<Version> list = new LinkedList<Version>();
+            while (rs.next()) {
+                statement = connection.prepareStatement("select id, name from pversion where id=?");
+                statement.setInt(1, rs.getInt(1));
+                rs2 = statement.executeQuery();
+                while (rs2.next()) {
+                    v = new Version();
+                    v.setID(rs2.getInt(1));
+                    v.setName(rs2.getString(2));
+                    list.add(v);
+                }
             }
             db.closeConection();
             return list;

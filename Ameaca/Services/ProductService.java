@@ -9,12 +9,20 @@ public class ProductService {
 
     private ProductRepository rep = new ProductRepository();
 
+    public List<Version> getVersionsByProduct(Product p) {
+        return rep.getVersionsByProduct(p);
+    }
+
     public List<Product> getVersions(String version, Product p) {
         return rep.getVersions(version, p);
     }
 
     public List<Product> findByName(String parte) {
         return rep.list(parte);
+    }
+
+    public List<Product> list() {
+        return rep.list();
     }
 
     public void insert(Product p) {
