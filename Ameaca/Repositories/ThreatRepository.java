@@ -1,6 +1,5 @@
 package Ameaca.Repositories;
 
-import Ameaca.Entities.Product;
 import Ameaca.Entities.Threat;
 import Ameaca.Services.DatabaseConnection;
 import java.sql.*;
