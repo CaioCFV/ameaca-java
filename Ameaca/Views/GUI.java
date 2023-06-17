@@ -2,7 +2,7 @@ package Ameaca.Views;
 
 import javax.swing.*;
 
-public abstract class GUI {
+public abstract class GUI extends JPanel {
 
     public abstract JPanel getPanel();
 

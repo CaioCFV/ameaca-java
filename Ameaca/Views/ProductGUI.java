@@ -6,8 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.*;
-import java.io.File;
-import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 

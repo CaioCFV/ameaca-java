@@ -34,9 +34,10 @@ public class MainGUI extends JFrame {
         try {
             ProductGUI pGUI = new ProductGUI();
             ThreatGUI tGUI = new ThreatGUI();
-
-            addPage(pGUI.getPanel(), pGUI.getMenuButton(), "screen1");
-            addPage(tGUI.getPanel(), tGUI.getMenuButton(), "screen2");
+            ListGUI lGUi = new ListGUI();
+            addPage(lGUi.getPanel(), lGUi.getMenuButton(), "screen1");
+            addPage(pGUI.getPanel(), pGUI.getMenuButton(), "screen2");
+            addPage(tGUI.getPanel(), tGUI.getMenuButton(), "screen3");
         } catch (BussinesException err) {
             JOptionPane.showMessageDialog(
                 null,
@@ -56,9 +57,20 @@ public class MainGUI extends JFrame {
 
     public static void addPage(JPanel p, JButton b, String n) {
         p.setVisible(false);
+
         b.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
+                    JPanel p2;
+                    p2 = new ListGUI().getPanel();
+                    cards.removeAll();
+                    if (n == "screen2") {
+                        p2 = new ProductGUI().getPanel();
+                    } else if (n == "screen3") {
+                        p2 = new ThreatGUI().getPanel();
+                    }
+                    cards.add(n, p2);
+                    cards.updateUI();
                     layout.show(cards, n);
                 }
             }

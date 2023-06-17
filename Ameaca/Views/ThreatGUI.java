@@ -2,11 +2,6 @@ package Ameaca.Views;
 
 import Ameaca.Entities.*;
 import Ameaca.Services.*;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +115,9 @@ public class ThreatGUI extends GUI {
         for (int i = 0; i < critically.length; i++) {
             gap = i * 30;
             r = new JRadioButton(critically[i]);
+            if (i == 0) {
+                r.setSelected(true);
+            }
             r.setActionCommand("" + (i + 1));
             r.setBounds(30, 205 + gap, 100, 30);
             criticallyField.add(r);
@@ -141,6 +139,9 @@ public class ThreatGUI extends GUI {
 
         for (TType t : types) {
             tBox = new JRadioButton(t.getName());
+            if (gap == 0) {
+                tBox.setSelected(true);
+            }
             tBox.setActionCommand("" + t.getID());
             tBox.setBounds(350, 45 + gap, 100, 30);
             tBox.setBorder(new EmptyBorder(5, 10, 5, 10));
@@ -164,21 +165,14 @@ public class ThreatGUI extends GUI {
         List<JCheckBox> buttons = new ArrayList<>();
         ProductService productService = new ProductService();
         List<Product> products = productService.list();
-        JLabel l;
         JCheckBox b;
-        List<Version> versions;
         for (Product p : products) {
-            l = new JLabel(p.getName());
-            l.setBorder(new EmptyBorder(5, 10, 5, 10));
-            versions = productService.getVersionsByProduct(p);
-            wrapperOptions.add(l);
-            for (Version v : versions) {
-                b = new JCheckBox(v.getName());
-                b.setActionCommand(v.getID() + "-" + p.getID());
-                b.setBorder(new EmptyBorder(5, 20, 5, 10));
-                buttons.add(b);
-                wrapperOptions.add(b);
-            }
+            Version v = productService.getProductVersion(p);
+            b = new JCheckBox(p.getName() + " - " + v.getName());
+            b.setActionCommand("" + p.getID());
+            b.setBorder(new EmptyBorder(5, 10, 5, 10));
+            buttons.add(b);
+            wrapperOptions.add(b);
         }
 
         scrollPane =
@@ -215,20 +209,14 @@ public class ThreatGUI extends GUI {
                     System.out.println("TIPO DE AMEAÇA: " + typeID);
 
                     ThreatService threatService = new ThreatService();
-                    threatService.add(t);
+                    t = threatService.add(t);
 
                     for (JCheckBox checkbox : buttons) {
                         if (checkbox.isSelected()) {
-                            int versionID = Integer.parseInt(
-                                (checkbox.getActionCommand().split("-")[0])
-                            );
-                            int productID = Integer.parseInt(
-                                (checkbox.getActionCommand().split("-")[1])
-                            );
-                            threatService.add(t, versionID, productID);
+                            int productID = Integer.parseInt((checkbox.getActionCommand()));
+                            threatService.addProduct(t, productID);
                         }
                     }
-                    //threatService.addProduct(Product, Version);
                 }
             }
         );

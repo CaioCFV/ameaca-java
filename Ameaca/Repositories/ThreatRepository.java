@@ -12,7 +12,7 @@ public class ThreatRepository {
     private DatabaseConnection db = new DatabaseConnection();
     private Connection connection;
 
-    public void insert(Threat t) {
+    public Threat insert(Threat t) {
         try {
             connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(
@@ -23,6 +23,47 @@ public class ThreatRepository {
             statement.setInt(3, t.getCriticallyLevelID());
             statement.setInt(4, t.getTypeID());
             statement.executeUpdate();
+            statement =
+                connection.prepareStatement(
+                    "select id, cve, discovery_date, critically_level_id, type_id from threat where cve=?"
+                );
+            statement.setString(1, t.getCVE());
+            ResultSet rs = statement.executeQuery();
+
+            Threat t2 = new Threat();
+            t2.setID(rs.getInt(1));
+            t2.setCVE(rs.getString(2));
+            t2.setDiscoveryDate(rs.getString(3));
+            t2.setCriticallyLevelID(rs.getInt(4));
+            t2.setTypeID(rs.getInt(5));
+            db.closeConection();
+            return t2;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+            return null;
+        }
+    }
+
+    public void addProduct(Threat t, int pID) {
+        try {
+            connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "select product_id, threat_id from threat_product where product_id=? and threat_id=?"
+            );
+            statement.setInt(1, t.getID());
+            statement.setInt(1, pID);
+            ResultSet rs = statement.executeQuery();
+
+            if (!rs.next()) {
+                statement =
+                    connection.prepareStatement(
+                        "insert into threat_product(threat_id, product_id) values (?,?)"
+                    );
+                statement.setInt(1, t.getID());
+                statement.setInt(2, pID);
+                statement.executeUpdate();
+            }
             db.closeConection();
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,85 +91,30 @@ public class ThreatRepository {
             return null;
         }
     }
-    // public void remover(int codigo)
-    // {
-    //     try{
-    //         conectar();
-    // 	    PreparedStatement statement = _con.prepareStatement("delete from dvd where codigo=?");
-    //         statement.setInt(1, codigo);
-    //     statement.executeUpdate();
-    //         desconectar();
-    //     }catch(Exception e){
-    // 	e.printStackTrace();
-    // 	System.exit(0);
-    // }
-    // }
-    // public void alterar(int cod, DVD d)
-    // {
-    //     try{
-    //         conectar();
-    // 	    PreparedStatement statement = _con.prepareStatement("update dvd set codigo=?,titulo=?,ano=?,duracao=?,estilo=? where codigo=?");
-    //         statement.setInt(1, d.getCodigo());
-    //         statement.setString(2, d.getTitulo());
-    //         statement.setInt(3, d.getAno());
-    //         statement.setInt(4, d.getDuracao());
-    //         statement.setString(5, d.getEstilo());
-    //         statement.setInt(6, cod);
-    //     statement.executeUpdate();
-    //         desconectar();
-    //     }catch(Exception e){
-    // 	e.printStackTrace();
-    // 	System.exit(0);
-    // }
-    // }
-    // public DVD get(int cod)
-    // {
-    //     try{
-    //         conectar();
-    // 	    PreparedStatement statement = _con.prepareStatement("select codigo, titulo, ano, duracao, estilo from dvd where codigo=?");
-    //         statement.setInt(1, cod);
-    //     ResultSet rs = statement.executeQuery();
-    //         DVD d = null;
-    //         if (rs.next())
-    //         {
-    //             d = new DVD();
-    //             d.setCodigo(rs.getInt(1));
-    //             d.setTitulo(rs.getString(2));
-    //             d.setAno(rs.getInt(3));
-    //             d.setDuracao(rs.getInt(4));
-    //             d.setEstilo(rs.getString(5));
-    //         }
-    //         desconectar();
-    //         return d;
-    //     }catch(Exception e){
-    // 	e.printStackTrace();
-    // 	System.exit(0);
-    // 	return null;
-    // }
-    // }
-    // public Iterable<DVD> listar()
-    // {
-    //     try{
-    //         conectar();
-    // 	    PreparedStatement statement = _con.prepareStatement("select codigo, titulo, ano, duracao, estilo from dvd order by codigo");
-    //     ResultSet rs = statement.executeQuery();
-    //         List<DVD> list = new LinkedList<DVD>();
-    //         while (rs.next())
-    //         {
-    //             DVD d = new DVD();
-    //             d.setCodigo(rs.getInt(1));
-    //             d.setTitulo(rs.getString(2));
-    //             d.setAno(rs.getInt(3));
-    //             d.setDuracao(rs.getInt(4));
-    //             d.setEstilo(rs.getString(5));
-    //             list.add(d);
-    //         }
-    //         desconectar();
-    //         return list;
-    //     }catch(Exception e){
-    // 	e.printStackTrace();
-    // 	System.exit(0);
-    //             return null;
-    // }
-    // }
+
+    public List<Threat> list() {
+        try {
+            connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "select id, cve, discovery_date, critically_level_id, type_id from threat"
+            );
+            ResultSet rs = statement.executeQuery();
+            List<Threat> list = new LinkedList<Threat>();
+            while (rs.next()) {
+                Threat t = new Threat();
+                t.setID(rs.getInt(1));
+                t.setCVE(rs.getString(2));
+                t.setDiscoveryDate(rs.getString(3));
+                t.setCriticallyLevelID(rs.getInt(4));
+                t.setTypeID(rs.getInt(5));
+                list.add(t);
+            }
+            db.closeConection();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+            return null;
+        }
+    }
 }

@@ -125,55 +125,25 @@ public class ProductRepository {
         }
     }
 
-    public List<Product> getVersions(String version, Product p) {
-        try {
-            connection = db.getConnection();
-            PreparedStatement statement = connection.prepareStatement(
-                "select id, version_id, product_id from version_product where version_id=? AND product_id=?"
-            );
-            statement.setString(1, version);
-            statement.setInt(2, p.getID());
-            ResultSet rs = statement.executeQuery();
-            List<Product> list = new LinkedList<Product>();
-            while (rs.next()) {
-                p = new Product();
-                p.setID(rs.getInt(1));
-                p.setName(rs.getString(2));
-                list.add(p);
-            }
-            db.closeConection();
-            return list;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(0);
-            return null;
-        }
-    }
-
-    public List<Version> getVersionsByProduct(Product p) {
-        ResultSet rs, rs2;
+    public Version getProductVersion(Product p) {
         Version v;
         try {
             connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(
-                "select version_id, product_id from version_product where product_id=?"
+                "select version_id from product where id=?"
             );
             statement.setInt(1, p.getID());
+            ResultSet rs = statement.executeQuery();
+
+            statement = connection.prepareStatement("select id, name from pversion where id=?");
+            statement.setInt(1, rs.getInt(1));
             rs = statement.executeQuery();
-            List<Version> list = new LinkedList<Version>();
-            while (rs.next()) {
-                statement = connection.prepareStatement("select id, name from pversion where id=?");
-                statement.setInt(1, rs.getInt(1));
-                rs2 = statement.executeQuery();
-                while (rs2.next()) {
-                    v = new Version();
-                    v.setID(rs2.getInt(1));
-                    v.setName(rs2.getString(2));
-                    list.add(v);
-                }
-            }
+            v = new Version();
+
+            v.setID(rs.getInt(1));
+            v.setName(rs.getString(2));
             db.closeConection();
-            return list;
+            return v;
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
