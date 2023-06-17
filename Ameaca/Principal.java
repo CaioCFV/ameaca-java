@@ -1,13 +1,7 @@
 package Ameaca;
 
-import Ameaca.Services.*;
 import Ameaca.Views.*;
-import javax.swing.JOptionPane;
 
-// Voce foi contratado pela Fature, para fazer um sistema de gerenciamento de ameaças
-// neste sistem deve ser possivel realizar as seguintes operacoes.
-
-// 1. inserir uma ameca
 // 2. remover uma ameaca
 // 3. alterar os dados de uma ameaca
 // 4. listar todas as amaeacas

@@ -11,4 +11,8 @@ public class TTypeService {
     public List<TType> list() {
         return rep.list();
     }
+
+    public TType getType(int typeID) {
+        return rep.getType(typeID);
+    }
 }

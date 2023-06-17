@@ -30,4 +30,21 @@ public class TTypeRepository {
             return null;
         }
     }
+
+    public TType getType(int TypeID) {
+        try {
+            connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement("select id, name from ttype");
+            ResultSet rs = statement.executeQuery();
+            TType t = new TType();
+            t.setID(rs.getInt(1));
+            t.setName(rs.getString(2));
+            db.closeConection();
+            return t;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+            return null;
+        }
+    }
 }
