@@ -23,8 +23,4 @@ public class ProductService {
     public void add(Product p) {
         rep.insert(p);
     }
-
-    public void addVersion(Product p, Version v) {
-        rep.addVersion(p, v);
-    }
 }

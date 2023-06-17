@@ -28,22 +28,6 @@ public class ProductRepository {
         }
     }
 
-    public void addVersion(Product p, Version v) {
-        try {
-            connection = db.getConnection();
-            PreparedStatement statement = connection.prepareStatement(
-                "insert into version_product (version_id, product_id) values (?,?)"
-            );
-            statement.setInt(1, v.getID());
-            statement.setInt(2, p.getID());
-            statement.executeUpdate();
-            db.closeConection();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-    }
-
     public List<Product> list(String name) {
         try {
             connection = db.getConnection();
