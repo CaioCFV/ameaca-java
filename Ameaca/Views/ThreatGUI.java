@@ -8,8 +8,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 class JTextFieldNumbers extends JTextField {
 
@@ -56,24 +58,21 @@ public class ThreatGUI extends GUI {
     public ThreatGUI() {
         panel.setLayout(null);
         JLabel pTitle = new JLabel("Insira os dados da ameaça");
-        pTitle.setFont(new Font("Sans Serif", Font.PLAIN, 14));
-        // pTitle.setOpaque(true);
-        // pTitle.setBackground(Color.red);
-        pTitle.setBounds(20, 20, 170, 15);
+        pTitle.setBounds(30, 20, 170, 15);
 
         JLabel labelCVE = new JLabel("CVE -");
-        labelCVE.setBounds(20, 60, 50, 15);
+        labelCVE.setBounds(30, 80, 50, 15);
 
-        JTextFieldNumbers cveFieldCode = new JTextFieldNumbers(4);
-        cveFieldCode.setBounds(60, 55, 45, 30);
-        cveFieldCode.setHorizontalAlignment(JTextField.CENTER);
+        JTextFieldNumbers cveFieldYear = new JTextFieldNumbers(4);
+        cveFieldYear.setBounds(70, 75, 45, 30);
+        cveFieldYear.setHorizontalAlignment(JTextField.CENTER);
 
         JLabel cveSeparator = new JLabel(" - ");
-        cveSeparator.setBounds(107, 60, 50, 15);
+        cveSeparator.setBounds(117, 80, 50, 15);
 
-        JTextFieldNumbers cveFieldYear = new JTextFieldNumbers(5);
-        cveFieldYear.setBounds(120, 55, 50, 30);
-        cveFieldYear.setHorizontalAlignment(JTextField.CENTER);
+        JTextFieldNumbers cveFieldCode = new JTextFieldNumbers(5);
+        cveFieldCode.setBounds(130, 75, 50, 30);
+        cveFieldCode.setHorizontalAlignment(JTextField.CENTER);
 
         panel.add(pTitle);
         panel.add(labelCVE);
@@ -83,24 +82,24 @@ public class ThreatGUI extends GUI {
 
         // DATE
         JLabel labelDate = new JLabel("Data da descoberta");
-        labelDate.setBounds(20, 130, 130, 15);
+        labelDate.setBounds(30, 140, 130, 15);
 
         JTextFieldNumbers dateFieldDay = new JTextFieldNumbers(2);
-        dateFieldDay.setBounds(140, 123, 30, 30);
+        dateFieldDay.setBounds(150, 133, 30, 30);
         dateFieldDay.setHorizontalAlignment(JTextField.CENTER);
 
         JLabel dateSeparator1 = new JLabel(" / ");
-        dateSeparator1.setBounds(175, 130, 10, 15);
+        dateSeparator1.setBounds(185, 140, 10, 15);
 
         JTextFieldNumbers dateFieldMonth = new JTextFieldNumbers(2);
-        dateFieldMonth.setBounds(190, 123, 30, 30);
+        dateFieldMonth.setBounds(200, 133, 30, 30);
         dateFieldMonth.setHorizontalAlignment(JTextField.CENTER);
 
         JLabel dateSeparator2 = new JLabel(" / ");
-        dateSeparator2.setBounds(223, 130, 10, 15);
+        dateSeparator2.setBounds(233, 140, 10, 15);
 
         JTextFieldNumbers dateFieldYear = new JTextFieldNumbers(4);
-        dateFieldYear.setBounds(235, 123, 50, 30);
+        dateFieldYear.setBounds(245, 133, 50, 30);
         dateFieldYear.setHorizontalAlignment(JTextField.CENTER);
         panel.add(labelDate);
         panel.add(dateFieldDay);
@@ -109,126 +108,129 @@ public class ThreatGUI extends GUI {
         panel.add(dateSeparator2);
         panel.add(dateFieldYear);
 
-        //TYPES
+        //CRITICALLY
         JLabel labelCritic = new JLabel("Nível de criticidade");
-        labelCritic.setBounds(20, 175, 150, 15);
+        labelCritic.setBounds(30, 185, 150, 15);
         panel.add(labelCritic);
 
-        ButtonGroup radioGroup = new ButtonGroup();
+        ButtonGroup criticallyField = new ButtonGroup();
         JRadioButton r;
         String[] critically = { "BAIXA", "MÉDIA", "ALTA" };
         int gap = 0;
         for (int i = 0; i < critically.length; i++) {
             gap = i * 30;
             r = new JRadioButton(critically[i]);
-            r.setBounds(20, 195 + gap, 100, 30);
-            radioGroup.add(r);
+            r.setActionCommand("" + (i + 1));
+            r.setBounds(30, 205 + gap, 100, 30);
+            criticallyField.add(r);
             panel.add(r);
         }
-        //throw new BussinesException("Teste");
-        //         TTypeService typeService = new TTypeService();
-        // List<TType> types = typeService.listar();
-        // System.err.println(types);
-        //date
 
-        // submit.addActionListener(
-        //     new ActionListener() {
-        //         public void actionPerformed(ActionEvent ae) {
-        //             cve = "CVE-" + s.nextString();
-        //             //validar se tem 4 digitos
-        //             System.out.println("Digite o codigo de 5 digitos ameaca: ");
-        //             //validar se tem 5 digitos
-        //             cve += "-" + s.nextString();
-        //             System.out.println("Digite o dia da descoberta: ");
-        //             discovery_date = s.nextString() + '/';
-        //             System.out.println("Digite o mes da descoberta: ");
-        //             discovery_date += s.nextString() + '/';
-        //             System.out.println("Digite o ano da descoberta: ");
-        //             discovery_date += s.nextString();
-        //             System.out.println(
-        //                 "Digite o nivel de criticidade:  1 - LOW, 2 - MEDIUM, 3 - HIGH"
-        //             );
-        //             cnumb = s.nextInt();
-        //             System.out.println("Selecione um tipo de ameaça:");
-        //             TTypeService tt_service = new TTypeService();
-        //             List<TType> colecao = tt_service.listar();
-        //             index = 0;
-        //             for (TType d : colecao) {
-        //                 System.out.println(index + 1 + " - " + d.getName());
-        //                 index++;
-        //             }
+        //TYPES
+        JPanel wrapperOptions = new JPanel();
+        wrapperOptions.setLayout(new BoxLayout(wrapperOptions, BoxLayout.Y_AXIS));
 
-        //             System.out.println("Quais produtos essa ameça afeta ?:");
-        //             ProductService productService = new ProductService();
-        //             List<Product> pColecao = productService.list();
-        //             index = 0;
-        //             for (Product d : pColecao) {
-        //                 System.out.println(index + 1 + " - " + d.getName());
-        //                 index++;
-        //             }
-        //             pid = s.nextInt() - 1;
-        //             System.out.println("Quais versões desse produto a ameaça está presente ?:");
-        //             List<Version> versions = productService.getVersionsByProduct(pColecao.get(pid));
-        //             index = 0;
-        //             for (Version v2 : versions) {
-        //                 System.out.println(index + 1 + " - " + v2.getName());
-        //                 index++;
-        //             }
-        //             versionsV = s.nextString();
-        //             Threat t = new Threat();
-        //             t.setCVE(cve);
-        //             t.setDiscoveryDate(discovery_date);
-        //             t.setCriticallyLevelID(cnumb);
-        //             t.setTypeID(index - 1);
-        //             th_service.add(t);
-        //             break;
+        JLabel labeType = new JLabel("Selecione o tipo da ameaça");
+        labeType.setBounds(350, 20, 200, 15);
+        panel.add(labeType);
+        ButtonGroup typeField = new ButtonGroup();
+        TTypeService typeService = new TTypeService();
+        List<TType> types = typeService.list();
+        JRadioButton tBox;
+        gap = 0;
 
-        //         String txtName = nameField.getText().trim();
-        //         String txtVersion = versionField.getText().toLowerCase().trim();
+        for (TType t : types) {
+            tBox = new JRadioButton(t.getName());
+            tBox.setActionCommand("" + t.getID());
+            tBox.setBounds(350, 45 + gap, 100, 30);
+            tBox.setBorder(new EmptyBorder(5, 10, 5, 10));
+            typeField.add(tBox);
+            wrapperOptions.add(tBox);
+            gap += 30;
+        }
+        JScrollPane scrollPane = new JScrollPane(
+            wrapperOptions,
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
+        );
+        scrollPane.setBounds(350, 40, 250, 70);
+        panel.add(scrollPane);
 
-        //         Product product = new Product();
-        //         product.setName(txtName);
+        //PRODUCTS
+        JLabel labelProduct = new JLabel("Quais produtos essa ameaça afeta ?");
+        labelProduct.setBounds(350, 130, 250, 15);
+        wrapperOptions = new JPanel();
+        wrapperOptions.setLayout(new BoxLayout(wrapperOptions, BoxLayout.Y_AXIS));
+        List<JCheckBox> buttons = new ArrayList<>();
+        ProductService productService = new ProductService();
+        List<Product> products = productService.list();
+        JLabel l;
+        JCheckBox b;
+        List<Version> versions;
+        for (Product p : products) {
+            l = new JLabel(p.getName());
+            l.setBorder(new EmptyBorder(5, 10, 5, 10));
+            versions = productService.getVersionsByProduct(p);
+            wrapperOptions.add(l);
+            for (Version v : versions) {
+                b = new JCheckBox(v.getName());
+                b.setActionCommand(v.getID() + "-" + p.getID());
+                b.setBorder(new EmptyBorder(5, 20, 5, 10));
+                buttons.add(b);
+                wrapperOptions.add(b);
+            }
+        }
 
-        //         Version version = new Version();
-        //         version.setName(txtVersion);
+        scrollPane =
+            new JScrollPane(
+                wrapperOptions,
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
+            );
+        scrollPane.setBounds(350, 150, 250, 150);
+        panel.add(labelProduct);
+        panel.add(scrollPane);
 
-        //         ProductService productService = new ProductService();
-        //         VersionService versionService = new VersionService();
-        //         List<Product> foundedproducts = productService.findByName(txtName);
-        //         List<Version> foundedversions = versionService.findByName(txtVersion);
+        JButton submit = new JButton("Cadastrar");
+        submit.setBounds(230, 320, 200, 40);
+        panel.add(submit);
 
-        //         if (foundedproducts.isEmpty()) {
-        //             productService.insert(product);
-        //             foundedproducts = productService.findByName(product.getName());
-        //             product.setID(foundedproducts.get(0).getID());
-        //         } else {
-        //             product.setID(foundedproducts.get(0).getID());
-        //         }
+        submit.addActionListener(
+            new ActionListener() {
+                public void actionPerformed(ActionEvent ae) {
+                    Threat t = new Threat();
+                    String cveYear = cveFieldYear.getText(), cveCode = cveFieldCode.getText(), dateDay = dateFieldDay.getText(), dateMonth = dateFieldMonth.getText(), dateYear = dateFieldYear.getText();
+                    int criticallyID = Integer.parseInt(
+                        (criticallyField.getSelection().getActionCommand())
+                    );
 
-        //         foundedversions = productService.getVersionsByProduct(product);
-        //         boolean found = false;
-        //         for (Version v : foundedversions) {
-        //             if (v.getName().contains(txtVersion)) {
-        //                 found = true;
-        //             }
-        //         }
-        //         System.out.println(found);
-        //         if (!found) {
-        //             foundedversions = versionService.findByName(txtVersion);
-        //             if (foundedversions.isEmpty()) {
-        //                 version.setName(versionField.getText());
-        //                 versionService.insert(version);
-        //                 foundedversions = versionService.findByName(versionField.getText());
-        //             } else {
-        //                 version.setID(foundedversions.get(0).getID());
-        //             }
-        //             productService.addVersion(product, version);
-        //             feedback.setText("Produto inserido com sucesso");
-        //         } else {
-        //             feedback.setText("Este produto já está configurado!");
-        //         }
-        //     }
-        // }
-        //);
+                    int typeID = Integer.parseInt((typeField.getSelection().getActionCommand()));
+
+                    t.setCVE("CVE-" + cveYear + "-" + cveCode);
+                    t.setDiscoveryDate(dateDay + "/" + dateMonth + "/" + dateYear);
+                    t.setCriticallyLevelID(criticallyID);
+                    System.out.println("CVE: " + t.getCVE());
+                    System.out.println("DISCOVERY DATE: " + t.getDiscoveryDate());
+                    System.out.println("CRITICIDADE: " + t.getCriticallyLevelID());
+                    System.out.println("TIPO DE AMEAÇA: " + typeID);
+
+                    ThreatService threatService = new ThreatService();
+                    threatService.add(t);
+
+                    for (JCheckBox checkbox : buttons) {
+                        if (checkbox.isSelected()) {
+                            int versionID = Integer.parseInt(
+                                (checkbox.getActionCommand().split("-")[0])
+                            );
+                            int productID = Integer.parseInt(
+                                (checkbox.getActionCommand().split("-")[1])
+                            );
+                            threatService.add(t, versionID, productID);
+                        }
+                    }
+                    //threatService.addProduct(Product, Version);
+                }
+            }
+        );
     }
 }

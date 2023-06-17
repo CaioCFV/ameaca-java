@@ -31,6 +31,10 @@ public class ThreatService {
 
         rep.insert(t);
     }
+
+    public void add(Threat t, int versionID, int productID) {
+        Threat threat = rep.getByCVE(t.getCVE());
+    }
     // public void listThreat(){
     //     System.out.println("+-----+----------------+----------------------------+");
     //     System.out.println("+ ID  | NÚMERO CVE     | NOME DO PRODUTO            |");

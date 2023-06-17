@@ -8,11 +8,15 @@ public class VersionService {
 
     private VersionRepository rep = new VersionRepository();
 
-    public List<Version> findByName(String parte) {
+    public List<Version> getVersion(String parte) {
         return rep.list(parte);
     }
 
-    public void insert(Version v) {
+    public boolean exists(String name) {
+        return rep.exists(name);
+    }
+
+    public Version add(Version v) {
         // if (d.getTitulo().length() < 2) throw new BussinesException(
         //     "Titulo deve ter mais de 1 caracter"
         // );
@@ -30,6 +34,6 @@ public class VersionService {
         // var dvd = rep.get(d.getCodigo());
         // if (dvd != null) throw new BussinesException("DVD com codigo ja existente");
 
-        rep.insert(v);
+        return rep.insert(v);
     }
 }

@@ -1,6 +1,6 @@
 package Ameaca.Views;
 
-import Ameaca.Services.BussinesException;
+import Ameaca.Services.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -18,7 +18,7 @@ public class MainGUI extends JFrame {
         setSize(700, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        ImageIcon imgicon = new ImageIcon("/assets/logo.png");
+        ImageIcon imgicon = new ImageIcon("logo.png");
         setIconImage(imgicon.getImage());
         container = getContentPane();
         cards.setLayout(layout);
@@ -31,12 +31,27 @@ public class MainGUI extends JFrame {
 
     public void init() {
         this.setVisible(true);
+        try {
+            ProductGUI pGUI = new ProductGUI();
+            ThreatGUI tGUI = new ThreatGUI();
 
-        ProductGUI pGUI = new ProductGUI();
-        ThreatGUI tGUI = new ThreatGUI();
-
-        addPage(pGUI.getPanel(), pGUI.getMenuButton(), "screen1");
-        addPage(tGUI.getPanel(), tGUI.getMenuButton(), "screen2");
+            addPage(pGUI.getPanel(), pGUI.getMenuButton(), "screen1");
+            addPage(tGUI.getPanel(), tGUI.getMenuButton(), "screen2");
+        } catch (BussinesException err) {
+            JOptionPane.showMessageDialog(
+                null,
+                err.getMessage(),
+                "Erro",
+                JOptionPane.WARNING_MESSAGE
+            );
+        } catch (Exception err) {
+            JOptionPane.showMessageDialog(
+                null,
+                "Erro não esperado! entre em contato com os desenvolvedores\n\n" + err.getMessage(),
+                "Erro Crítico",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     public static void addPage(JPanel p, JButton b, String n) {

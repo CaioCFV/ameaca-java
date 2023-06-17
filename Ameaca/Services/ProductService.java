@@ -25,7 +25,11 @@ public class ProductService {
         return rep.list();
     }
 
-    public void insert(Product p) {
+    public boolean exists(String name, String version) {
+        return rep.exists(name, version);
+    }
+
+    public void add(Product p) {
         // if (d.getTitulo().length() < 2) throw new BussinesException(
         //     "Titulo deve ter mais de 1 caracter"
         // );
@@ -42,7 +46,6 @@ public class ProductService {
         // t.getCVE();
         // var dvd = rep.get(d.getCodigo());
         // if (dvd != null) throw new BussinesException("DVD com codigo ja existente");
-
         rep.insert(p);
     }
 

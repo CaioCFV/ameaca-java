@@ -8,7 +8,7 @@ CREATE TABLE tcriticallylevel (
 );
 CREATE TABLE threat (
     id                      INTEGER         PRIMARY KEY AUTOINCREMENT NOT NULL,
-    cve                     VARCHAR (14)    NOT NULL,
+    cve                     VARCHAR (14)    UNIQUE NOT NULL,
     discovery_date          DATETIME        NOT NULL,
     critically_level_id     INTEGER         NOT NULL REFERENCES tcriticallylevel (id),
     type_id                 INTEGER         NOT NULL REFERENCES ttype (id)
@@ -19,18 +19,13 @@ CREATE TABLE pversion (
 );
 CREATE TABLE product (
     id         INTEGER          PRIMARY KEY AUTOINCREMENT,
-    name       VARCHAR (150)    UNIQUE NOT NULL
+    name       VARCHAR (150)    NOT NULL,
+    version_id INTEGER          REFERENCES pversion (id) NOT NULL
 );
-CREATE TABLE version_product (
-    id          INTEGER          PRIMARY KEY AUTOINCREMENT,
-    product_id  INTEGER          REFERENCES product (id) NOT NULL,
-    version_id  INTEGER          REFERENCES pversion (id) NOT NULL
-);
-CREATE TABLE threat_product_version (
+CREATE TABLE threat_product (
     id         INTEGER          PRIMARY KEY AUTOINCREMENT,
     product_id INTEGER          REFERENCES product (id) NOT NULL,
-    threat_id  INTEGER          REFERENCES threat (id) NOT NULL,
-    version_id INTEGER          REFERENCES pversion(id) NOT NULL
+    threat_id  INTEGER          REFERENCES threat (id) NOT NULL
 );
 INSERT INTO tcriticallylevel (name) values ('LOW');
 INSERT INTO tcriticallylevel (name) values ('MEDIUM');

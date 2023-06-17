@@ -10,7 +10,7 @@ public class TTypeRepository {
     private DatabaseConnection db = new DatabaseConnection();
     private Connection connection;
 
-    public List<TType> listar() {
+    public List<TType> list() {
         try {
             connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement("select id, name from ttype");

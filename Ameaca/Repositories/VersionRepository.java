@@ -10,7 +10,8 @@ public class VersionRepository {
     private DatabaseConnection db = new DatabaseConnection();
     private Connection connection;
 
-    public void insert(Version v) {
+    public Version insert(Version v) {
+        Version result;
         try {
             connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(
@@ -18,10 +19,19 @@ public class VersionRepository {
             );
             statement.setString(1, v.getName());
             statement.executeUpdate();
+
+            statement = connection.prepareStatement("select id, name from pversion where name=?");
+            statement.setString(1, v.getName());
+            ResultSet rs = statement.executeQuery();
+            result = new Version();
+            result.setID(rs.getInt(1));
+            result.setName(rs.getString(2));
             db.closeConection();
+            return result;
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
+            return v;
         }
     }
 
@@ -46,6 +56,30 @@ public class VersionRepository {
             e.printStackTrace();
             System.exit(0);
             return null;
+        }
+    }
+
+    public boolean exists(String name) {
+        boolean exists = true;
+        try {
+            connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "select id, name from pversion where name=?"
+            );
+
+            statement.setString(1, name);
+            ResultSet rs = statement.executeQuery();
+
+            if (!rs.next()) {
+                exists = false;
+            }
+
+            db.closeConection();
+            return exists;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+            return false;
         }
     }
 }

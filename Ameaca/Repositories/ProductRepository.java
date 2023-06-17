@@ -16,9 +16,10 @@ public class ProductRepository {
         try {
             connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(
-                "insert into product (name) values (?)"
+                "insert into product (name, version_id) values (?,?)"
             );
             statement.setString(1, p.getName());
+            statement.setInt(2, p.getVersionID());
             statement.executeUpdate();
             db.closeConection();
         } catch (Exception e) {
@@ -87,6 +88,40 @@ public class ProductRepository {
             e.printStackTrace();
             System.exit(0);
             return null;
+        }
+    }
+
+    public boolean exists(String name, String version) {
+        try {
+            connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "select id, name from product where name=?"
+            );
+            statement.setString(1, name);
+            ResultSet rs = statement.executeQuery();
+            if (!rs.next()) {
+                db.closeConection();
+                return false;
+            }
+
+            statement = connection.prepareStatement("select id, name from pversion where name=?");
+            statement.setString(1, version);
+            rs = statement.executeQuery();
+            if (!rs.next()) {
+                db.closeConection();
+                return false;
+            }
+            statement = connection.prepareStatement("select id from product where version_id=?");
+            statement.setString(1, rs.getString(1));
+            rs = statement.executeQuery();
+            if (!rs.next()) {
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+            return false;
         }
     }
 

@@ -1,8 +1,11 @@
 package Ameaca.Repositories;
 
+import Ameaca.Entities.Product;
 import Ameaca.Entities.Threat;
 import Ameaca.Services.DatabaseConnection;
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ThreatRepository {
 
@@ -24,6 +27,27 @@ public class ThreatRepository {
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
+        }
+    }
+
+    public Threat getByCVE(String cve) {
+        Threat t;
+        try {
+            connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "select id, cve, discovery_date, critically_level_id, type_id from threat where cve=?"
+            );
+            statement.setString(0, cve);
+            ResultSet rs = statement.executeQuery();
+            t = new Threat();
+            t.setID(rs.getInt(1));
+            t.setCVE(rs.getString(2));
+            db.closeConection();
+            return t;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+            return null;
         }
     }
     // public void remover(int codigo)

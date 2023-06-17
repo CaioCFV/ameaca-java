@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.*;
+import java.io.File;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,7 +14,7 @@ import javax.swing.border.EmptyBorder;
 public class ProductGUI extends GUI {
 
     private JPanel panel = new JPanel(new BorderLayout());
-    private JButton menuButton = new JButton("Adicionar novo produto");
+    private JButton menuButton = new JButton("cadastra produto");
 
     private JTextField createTextField(JPanel p, String rotulo, int largura) {
         JPanel pnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -34,8 +35,6 @@ public class ProductGUI extends GUI {
     public JPanel getPanel() {
         return panel;
     }
-
-    public static void submitForm() {}
 
     public ProductGUI() {
         JTextField nameField, versionField;
@@ -63,66 +62,26 @@ public class ProductGUI extends GUI {
         submit.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
-                    try {
-                        String txtName = nameField.getText().trim();
-                        String txtVersion = versionField.getText().toLowerCase().trim();
+                    Product product = new Product();
+                    String txtName = nameField.getText().trim();
+                    String txtVersion = versionField.getText().toLowerCase().trim();
+                    ProductService productService = new ProductService();
 
-                        Product product = new Product();
-                        product.setName(txtName);
-
-                        Version version = new Version();
-                        version.setName(txtVersion);
-
-                        ProductService productService = new ProductService();
+                    if (!productService.exists(txtName, txtVersion)) {
                         VersionService versionService = new VersionService();
-                        List<Product> foundedproducts = productService.findByName(txtName);
-                        List<Version> foundedversions = versionService.findByName(txtVersion);
-
-                        if (foundedproducts.isEmpty()) {
-                            productService.insert(product);
-                            foundedproducts = productService.findByName(product.getName());
-                            product.setID(foundedproducts.get(0).getID());
+                        Version v = new Version();
+                        if (!versionService.exists(txtVersion)) {
+                            v.setName(txtVersion);
+                            v = versionService.add(v);
                         } else {
-                            product.setID(foundedproducts.get(0).getID());
+                            v = versionService.getVersion(txtVersion).get(0);
                         }
-
-                        foundedversions = productService.getVersionsByProduct(product);
-                        boolean found = false;
-                        for (Version v : foundedversions) {
-                            if (v.getName().contains(txtVersion)) {
-                                found = true;
-                            }
-                        }
-                        System.out.println(found);
-                        if (!found) {
-                            foundedversions = versionService.findByName(txtVersion);
-                            if (foundedversions.isEmpty()) {
-                                version.setName(versionField.getText());
-                                versionService.insert(version);
-                                foundedversions = versionService.findByName(versionField.getText());
-                            } else {
-                                version.setID(foundedversions.get(0).getID());
-                            }
-                            productService.addVersion(product, version);
-                            feedback.setText("Produto inserido com sucesso");
-                        } else {
-                            throw new BussinesException("Já existe um produt com essa versão");
-                        }
-                    } catch (BussinesException err) {
-                        JOptionPane.showMessageDialog(
-                            null,
-                            err.getMessage(),
-                            "Erro",
-                            JOptionPane.WARNING_MESSAGE
-                        );
-                    } catch (Exception err) {
-                        JOptionPane.showMessageDialog(
-                            null,
-                            "Erro não esperado! entre em contato com os desenvolvedores\n\n" +
-                            err.getMessage(),
-                            "Erro Crítico",
-                            JOptionPane.ERROR_MESSAGE
-                        );
+                        product.setName(txtName);
+                        product.setVersionID(v.getID());
+                        productService.add(product);
+                        showSuccess("Sucesso", "O produto foi cadastrado com sucesso!");
+                    } else {
+                        showError("Erro", "O produto informado já existe!");
                     }
                 }
             }

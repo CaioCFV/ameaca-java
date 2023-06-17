@@ -35,6 +35,10 @@ public class Threat {
         return id;
     }
 
+    public void setID(int value) {
+        id = value;
+    }
+
     public void setCVE(String value) {
         cve = value;
     }

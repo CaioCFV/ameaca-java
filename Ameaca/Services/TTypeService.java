@@ -8,7 +8,7 @@ public class TTypeService {
 
     private TTypeRepository rep = new TTypeRepository();
 
-    public List<TType> listar() {
-        return rep.listar();
+    public List<TType> list() {
+        return rep.list();
     }
 }
