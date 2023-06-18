@@ -19,4 +19,20 @@ public class ThreatService {
     public List<Threat> list() {
         return rep.list();
     }
+
+    public List<Product> getProducts(int threatID) {
+        return rep.getProducts(threatID);
+    }
+
+    public void delete(int ID) {
+        rep.delete(ID);
+    }
+
+    public void update(Threat t) {
+        rep.update(t);
+    }
+
+    public void removeProducts(Threat t) {
+        rep.removeProducts(t);
+    }
 }

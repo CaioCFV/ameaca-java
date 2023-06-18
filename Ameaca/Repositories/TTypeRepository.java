@@ -34,7 +34,10 @@ public class TTypeRepository {
     public TType getType(int TypeID) {
         try {
             connection = db.getConnection();
-            PreparedStatement statement = connection.prepareStatement("select id, name from ttype");
+            PreparedStatement statement = connection.prepareStatement(
+                "select id, name from ttype where id=?"
+            );
+            statement.setInt(1, TypeID);
             ResultSet rs = statement.executeQuery();
             TType t = new TType();
             t.setID(rs.getInt(1));

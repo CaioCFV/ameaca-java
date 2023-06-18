@@ -1,5 +1,6 @@
 package Ameaca.Repositories;
 
+import Ameaca.Entities.Product;
 import Ameaca.Entities.Threat;
 import Ameaca.Services.DatabaseConnection;
 import java.sql.*;
@@ -44,6 +45,26 @@ public class ThreatRepository {
         }
     }
 
+    public void update(Threat t) {
+        try {
+            connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "UPDATE threat SET cve=?, discovery_date=?, critically_level_id=?, type_id=? where id=?"
+            );
+            statement.setString(1, t.getCVE());
+            statement.setString(2, t.getDiscoveryDate());
+            statement.setInt(3, t.getCriticallyLevelID());
+            statement.setInt(4, t.getTypeID());
+            statement.setInt(5, t.getID());
+            statement.executeUpdate();
+
+            db.closeConection();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+    }
+
     public void addProduct(Threat t, int pID) {
         try {
             connection = db.getConnection();
@@ -70,27 +91,6 @@ public class ThreatRepository {
         }
     }
 
-    public Threat getByCVE(String cve) {
-        Threat t;
-        try {
-            connection = db.getConnection();
-            PreparedStatement statement = connection.prepareStatement(
-                "select id, cve, discovery_date, critically_level_id, type_id from threat where cve=?"
-            );
-            statement.setString(0, cve);
-            ResultSet rs = statement.executeQuery();
-            t = new Threat();
-            t.setID(rs.getInt(1));
-            t.setCVE(rs.getString(2));
-            db.closeConection();
-            return t;
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(0);
-            return null;
-        }
-    }
-
     public List<Threat> list() {
         try {
             connection = db.getConnection();
@@ -114,6 +114,78 @@ public class ThreatRepository {
             e.printStackTrace();
             System.exit(0);
             return null;
+        }
+    }
+
+    public List<Product> getProducts(int threatID) {
+        ResultSet rs, rs2;
+        try {
+            connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "select product_id from threat_product where threat_id=?"
+            );
+            statement.setInt(1, threatID);
+            rs = statement.executeQuery();
+            List<Product> list = new LinkedList<Product>();
+            while (rs.next()) {
+                statement =
+                    connection.prepareStatement(
+                        "select id, version_id, name from product where id=?"
+                    );
+                statement.setInt(1, rs.getInt(1));
+                rs2 = statement.executeQuery();
+                while (rs2.next()) {
+                    Product p = new Product();
+                    p.setID(rs2.getInt(1));
+                    p.setVersionID(rs2.getInt(2));
+                    p.setName(rs2.getString(3));
+                    list.add(p);
+                }
+            }
+            db.closeConection();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+            return null;
+        }
+    }
+
+    public void removeProducts(Threat t) {
+        try {
+            connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "delete from threat_product where threat_id=?"
+            );
+            statement.setInt(1, t.getID());
+            statement.executeUpdate();
+            db.closeConection();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+    }
+
+    public void delete(int ID) {
+        try {
+            connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "select id from threat_product where threat_id=?"
+            );
+            statement.setInt(1, ID);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                statement = connection.prepareStatement("delete from threat_product where id=?");
+                statement.setInt(1, rs.getInt(1));
+                statement.executeUpdate();
+            }
+            statement = connection.prepareStatement("delete from threat where id=?");
+            statement.setInt(1, ID);
+            statement.executeUpdate();
+            db.closeConection();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
         }
     }
 }

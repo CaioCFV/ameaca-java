@@ -118,7 +118,7 @@ public class ThreatGUI extends GUI {
             if (i == 0) {
                 r.setSelected(true);
             }
-            r.setActionCommand("" + (i + 1));
+            r.setActionCommand("" + i);
             r.setBounds(30, 205 + gap, 100, 30);
             criticallyField.add(r);
             panel.add(r);
@@ -203,10 +203,7 @@ public class ThreatGUI extends GUI {
                     t.setCVE("CVE-" + cveYear + "-" + cveCode);
                     t.setDiscoveryDate(dateDay + "/" + dateMonth + "/" + dateYear);
                     t.setCriticallyLevelID(criticallyID);
-                    System.out.println("CVE: " + t.getCVE());
-                    System.out.println("DISCOVERY DATE: " + t.getDiscoveryDate());
-                    System.out.println("CRITICIDADE: " + t.getCriticallyLevelID());
-                    System.out.println("TIPO DE AMEAÇA: " + typeID);
+                    t.setTypeID(typeID);
 
                     ThreatService threatService = new ThreatService();
                     t = threatService.add(t);

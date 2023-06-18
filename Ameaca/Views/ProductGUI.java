@@ -56,7 +56,7 @@ public class ProductGUI extends GUI {
         panel.add(titleWrapper, BorderLayout.NORTH);
         panel.add(inputWrapper, BorderLayout.CENTER);
         panel.add(buttonWrapper, BorderLayout.SOUTH);
-
+        panel.setVisible(true);
         submit.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {

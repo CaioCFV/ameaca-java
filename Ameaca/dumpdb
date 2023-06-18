@@ -2,10 +2,22 @@ CREATE TABLE ttype (
     id                      INTEGER         PRIMARY KEY AUTOINCREMENT,
     name                    TEXT (100)      UNIQUE NOT NULL
 );
+
+INSERT INTO ttype (id, name) values (0,'Spam');
+INSERT INTO ttype (id ,name) values (1,'Worm');
+INSERT INTO ttype (id ,name) values (2,'Virus');
+INSERT INTO ttype (id ,name) values (3,'DDOS');
+INSERT INTO ttype (id, name) values (4,'Ramsoware');
+
 CREATE TABLE tcriticallylevel (
     id                      INTEGER         PRIMARY KEY AUTOINCREMENT,
     name                    VARCHAR (10)    UNIQUE NOT NULL
 );
+
+INSERT INTO tcriticallylevel (id, name) values (0,'LOW');
+INSERT INTO tcriticallylevel (id, name) values (1,'MEDIUM');
+INSERT INTO tcriticallylevel (id, name) values (2,'HIGH');
+
 CREATE TABLE threat (
     id                      INTEGER         PRIMARY KEY AUTOINCREMENT NOT NULL,
     cve                     VARCHAR (14)    UNIQUE NOT NULL,
@@ -27,14 +39,6 @@ CREATE TABLE threat_product (
     product_id INTEGER          REFERENCES product (id) NOT NULL,
     threat_id  INTEGER          REFERENCES threat (id) NOT NULL
 );
-INSERT INTO tcriticallylevel (name) values ('LOW');
-INSERT INTO tcriticallylevel (name) values ('MEDIUM');
-INSERT INTO tcriticallylevel (name) values ('HIGH');
-INSERT INTO ttype (name) values ('Spam');
-INSERT INTO ttype (name) values ('Worm');
-INSERT INTO ttype (name) values ('Virus');
-INSERT INTO ttype (name) values ('DDOS');
-INSERT INTO ttype (name) values ('Ramsoware');
 
 EXIT
     -- consequence BLOB            NOT NULL,

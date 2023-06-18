@@ -55,6 +55,21 @@ public class MainGUI extends JFrame {
         }
     }
 
+    public static void updatePage(int index) {
+        String n = "pscreen" + index;
+        JPanel p = new ListGUI().getPanel();
+        cards.removeAll();
+        cards.updateUI();
+        // if (n == "pscreen2") {
+        //     p = new ProductGUI().getPanel();
+        // } else if (n == "pscreen3") {
+        //     p = new ThreatGUI().getPanel();
+        // }
+
+        // cards.add(n, p);
+        // layout.show(cards, n);
+    }
+
     public static void addPage(JPanel p, JButton b, String n) {
         p.setVisible(false);
 

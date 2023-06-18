@@ -2,9 +2,6 @@ package Ameaca;
 
 import Ameaca.Views.*;
 
-// 2. remover uma ameaca
-// 3. alterar os dados de uma ameaca
-// 4. listar todas as amaeacas
 // 5. listar as ameacas dado o nome do produto e sua versao
 // 6. baixar patch de uma ameaca
 
