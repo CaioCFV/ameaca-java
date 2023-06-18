@@ -3,6 +3,7 @@ package Ameaca.Views;
 import Ameaca.Entities.*;
 import Ameaca.Services.*;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,8 @@ public class ListGUI extends GUI {
 
     private JPanel panel = new JPanel(new BorderLayout());
     private JButton menuButton = new JButton("Lista de ameaças");
+    private JPanel wrapper = new JPanel();
+    private ThreatService threatService = new ThreatService();
 
     public JButton getMenuButton() {
         return menuButton;
@@ -20,6 +23,81 @@ public class ListGUI extends GUI {
 
     public JPanel getPanel() {
         return panel;
+    }
+
+    public void showList(List<Threat> threatList) {
+        TTypeService ttypeService = new TTypeService();
+        wrapper.setBackground(Color.WHITE);
+        JLabel labelCVE, labelDiscoberyDate, typeLabel, criticallyLabel;
+        JButton deleteBtn, updateBtn, downloadBtn;
+        wrapper.setLayout(null);
+        wrapper.setBorder(new EmptyBorder(30, 30, 30, 30));
+        int gap = 20;
+
+        for (Threat t : threatList) {
+            labelCVE = new JLabel(t.getCVE());
+            labelCVE.setBounds(30, gap, 100, 40);
+
+            labelDiscoberyDate = new JLabel("Data da descoberta: " + t.getDiscoveryDate());
+            labelDiscoberyDate.setBounds(30, gap + 25, 300, 40);
+
+            typeLabel = new JLabel("Tipo: " + ttypeService.getType(t.getTypeID()).getName());
+            typeLabel.setBounds(200, gap, 150, 40);
+
+            criticallyLabel = new JLabel("Nível de criticidade: " + t.getCriticallyLevelID());
+            criticallyLabel.setBounds(340, gap, 150, 40);
+
+            deleteBtn = new JButton("Deletar");
+            deleteBtn.setBounds(500, gap + 15, 150, 30);
+
+            updateBtn = new JButton("Atualizar dados");
+            updateBtn.setBounds(30, gap + 60, 150, 23);
+
+            downloadBtn = new JButton("Download correção");
+            downloadBtn.setBounds(200, gap + 60, 150, 23);
+
+            deleteBtn.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent ae) {
+                        MainGUI.updatePage(1);
+                        threatService.delete(t.getID());
+                        showSuccess("Sucesso!", "Ameaça deletada da base de dados com sucesso!");
+                    }
+                }
+            );
+
+            updateBtn.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent ae) {
+                        updateThreat(t);
+                    }
+                }
+            );
+
+            wrapper.add(labelCVE);
+            wrapper.add(labelDiscoberyDate);
+            wrapper.add(typeLabel);
+            wrapper.add(criticallyLabel);
+            wrapper.add(deleteBtn);
+            wrapper.add(updateBtn);
+            wrapper.add(downloadBtn);
+            gap += 100;
+        }
+
+        wrapper.updateUI();
+    }
+
+    public void search(String name, String version) {
+        wrapper.removeAll();
+        if (!name.isEmpty() && !version.isEmpty()) {
+            showList(threatService.searchProducts(name, version));
+        } else if (name.isEmpty() && !version.isEmpty()) {
+            showList(threatService.searchProductsVersion(version));
+        } else if (!name.isEmpty() && version.isEmpty()) {
+            showList(threatService.searchProductsName(name));
+        } else {
+            showError("Pesquisa", "Digite um dado antes de pesquisar!");
+        }
     }
 
     public static void updateThreat(Threat threat) {
@@ -204,72 +282,41 @@ public class ListGUI extends GUI {
     }
 
     public ListGUI() {
-        TTypeService ttypeService = new TTypeService();
-        ThreatService threatService = new ThreatService();
-        List<Threat> threatList = threatService.list();
-        JPanel wrapper = new JPanel();
-        JLabel labelCVE, labelDiscoberyDate, typeLabel, criticallyLabel;
-        JButton deleteBtn, updateBtn, downloadBtn;
-        wrapper.setLayout(null);
-        wrapper.setBorder(new EmptyBorder(30, 30, 30, 30));
-        int gap = 20;
-
-        for (Threat t : threatList) {
-            labelCVE = new JLabel(t.getCVE());
-            labelCVE.setBounds(30, gap, 100, 40);
-
-            labelDiscoberyDate = new JLabel("Data da descoberta: " + t.getDiscoveryDate());
-            labelDiscoberyDate.setBounds(30, gap + 25, 300, 40);
-
-            typeLabel = new JLabel("Tipo: " + ttypeService.getType(t.getTypeID()).getName());
-            typeLabel.setBounds(200, gap, 150, 40);
-
-            criticallyLabel = new JLabel("Nível de criticidade: " + t.getCriticallyLevelID());
-            criticallyLabel.setBounds(340, gap, 150, 40);
-
-            deleteBtn = new JButton("Deletar");
-            deleteBtn.setBounds(500, gap + 15, 150, 30);
-
-            updateBtn = new JButton("Atualizar dados");
-            updateBtn.setBounds(30, gap + 60, 150, 23);
-
-            downloadBtn = new JButton("Download correção");
-            downloadBtn.setBounds(200, gap + 60, 150, 23);
-
-            deleteBtn.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent ae) {
-                        MainGUI.updatePage(1);
-                        threatService.delete(t.getID());
-                        showSuccess("Sucesso!", "Ameaça deletada da base de dados com sucesso!");
-                    }
-                }
-            );
-
-            updateBtn.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent ae) {
-                        updateThreat(t);
-                    }
-                }
-            );
-
-            wrapper.add(labelCVE);
-            wrapper.add(labelDiscoberyDate);
-            wrapper.add(typeLabel);
-            wrapper.add(criticallyLabel);
-            wrapper.add(deleteBtn);
-            wrapper.add(updateBtn);
-            wrapper.add(downloadBtn);
-            gap += 100;
-        }
-
         JScrollPane scrollPane = new JScrollPane(
             wrapper,
             ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
         );
-        scrollPane.setBounds(350, 40, 250, 70);
+        scrollPane.setBounds(40, 40, 600, 250);
+
+        JTextField nameField = new JTextField();
+        nameField.setText("Nome do produto...");
+        nameField.setBounds(130, 330, 200, 35);
+
+        JTextField versionField = new JTextField();
+        versionField.setBounds(340, 330, 100, 35);
+
+        JButton enviar = new JButton("00");
+        enviar.setText("Pesquisar");
+        enviar.setBounds(450, 330, 100, 35);
+
+        JPanel searchPane = new JPanel();
+        searchPane.setLayout(null);
+        searchPane.add(nameField);
+        searchPane.add(versionField);
+        searchPane.add(enviar);
+        enviar.addActionListener(
+            new ActionListener() {
+                public void actionPerformed(ActionEvent ae) {
+                    search(nameField.getText(), versionField.getText());
+                }
+            }
+        );
+
         panel.add(scrollPane);
+        panel.add(searchPane);
+
+        List<Threat> threatList = threatService.list();
+        showList(threatList);
     }
 }

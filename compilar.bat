@@ -7,4 +7,4 @@ copy Ameaca\dumpdb build\
 copy Ameaca\Views\assets\*.png build\
 cd build
 java -cp ".;../sqlite-jdbc-3.42.0.0.jar" Ameaca.Principal
-@REM pause
+pause

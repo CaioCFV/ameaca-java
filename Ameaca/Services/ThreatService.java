@@ -35,4 +35,16 @@ public class ThreatService {
     public void removeProducts(Threat t) {
         rep.removeProducts(t);
     }
+
+    public List<Threat> searchProducts(String name, String version) {
+        return rep.searchProducts(name, version);
+    }
+
+    public List<Threat> searchProductsName(String version) {
+        return rep.searchProductsName(version);
+    }
+
+    public List<Threat> searchProductsVersion(String name) {
+        return rep.searchProductsVersion(name);
+    }
 }
