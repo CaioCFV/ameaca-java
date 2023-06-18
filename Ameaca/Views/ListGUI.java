@@ -4,6 +4,10 @@ import Ameaca.Entities.*;
 import Ameaca.Services.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.HeadlessException;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,31 +34,52 @@ public class ListGUI extends GUI {
         wrapper.setBackground(Color.WHITE);
         JLabel labelCVE, labelDiscoberyDate, typeLabel, criticallyLabel;
         JButton deleteBtn, updateBtn, downloadBtn;
-        wrapper.setLayout(null);
-        wrapper.setBorder(new EmptyBorder(30, 30, 30, 30));
-        int gap = 20;
+        wrapper.setLayout(new BoxLayout(wrapper, BoxLayout.Y_AXIS));
+        wrapper.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         for (Threat t : threatList) {
+            JPanel item = new JPanel();
+
+            item.setBackground(Color.WHITE);
+            item.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+            item.setPreferredSize(new Dimension(500, 100));
+
+            JPanel header = new JPanel(new BorderLayout());
+            header.setBackground(Color.WHITE);
+            header.setPreferredSize(new Dimension(500, 30));
+
+            JPanel body = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+            body.setPreferredSize(new Dimension(520, 40));
+            body.setBackground(Color.WHITE);
+
             labelCVE = new JLabel(t.getCVE());
-            labelCVE.setBounds(30, gap, 100, 40);
 
             labelDiscoberyDate = new JLabel("Data da descoberta: " + t.getDiscoveryDate());
-            labelDiscoberyDate.setBounds(30, gap + 25, 300, 40);
+            labelDiscoberyDate.setHorizontalAlignment(JLabel.CENTER);
 
             typeLabel = new JLabel("Tipo: " + ttypeService.getType(t.getTypeID()).getName());
-            typeLabel.setBounds(200, gap, 150, 40);
+
+            header.add(labelCVE, BorderLayout.LINE_START);
+            header.add(labelDiscoberyDate, BorderLayout.CENTER);
+            header.add(typeLabel, BorderLayout.LINE_END);
 
             criticallyLabel = new JLabel("Nível de criticidade: " + t.getCriticallyLevelID());
-            criticallyLabel.setBounds(340, gap, 150, 40);
+            criticallyLabel.setHorizontalAlignment(JLabel.RIGHT);
+            criticallyLabel.setPreferredSize(new Dimension(130, 30));
 
-            deleteBtn = new JButton("Deletar");
-            deleteBtn.setBounds(500, gap + 15, 150, 30);
+            deleteBtn = new JButton("DELETAR");
+            deleteBtn.setPreferredSize(new Dimension(100, 30));
 
-            updateBtn = new JButton("Atualizar dados");
-            updateBtn.setBounds(30, gap + 60, 150, 23);
+            updateBtn = new JButton("ATUALIZAR");
+            updateBtn.setPreferredSize(new Dimension(100, 30));
 
-            downloadBtn = new JButton("Download correção");
-            downloadBtn.setBounds(200, gap + 60, 150, 23);
+            downloadBtn = new JButton("BAIXAR PATCH");
+            downloadBtn.setPreferredSize(new Dimension(150, 30));
+
+            body.add(updateBtn);
+            body.add(downloadBtn);
+            body.add(deleteBtn);
+            body.add(criticallyLabel);
 
             deleteBtn.addActionListener(
                 new ActionListener() {
@@ -74,14 +99,10 @@ public class ListGUI extends GUI {
                 }
             );
 
-            wrapper.add(labelCVE);
-            wrapper.add(labelDiscoberyDate);
-            wrapper.add(typeLabel);
-            wrapper.add(criticallyLabel);
-            wrapper.add(deleteBtn);
-            wrapper.add(updateBtn);
-            wrapper.add(downloadBtn);
-            gap += 100;
+            item.add(header);
+            item.add(body);
+
+            wrapper.add(item);
         }
 
         wrapper.updateUI();

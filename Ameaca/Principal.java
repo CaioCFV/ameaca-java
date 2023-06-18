@@ -2,7 +2,6 @@ package Ameaca;
 
 import Ameaca.Views.*;
 
-// 5. listar as ameacas dado o nome do produto e sua versao
 // 6. baixar patch de uma ameaca
 
 // pre-requisitor para a analise de qualquer pontuacao:
