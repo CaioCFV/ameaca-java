@@ -340,10 +340,11 @@ public class ListGUI extends GUI {
             }
         );
 
-        importButton.addActionListener(
+        exportButton.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
-                    search(nameField.getText(), versionField.getText());
+                    DatabaseService dbService = new DatabaseService();
+                    dbService.exportData();
                 }
             }
         );
@@ -351,7 +352,8 @@ public class ListGUI extends GUI {
         importButton.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
-                    search(nameField.getText(), versionField.getText());
+                    DatabaseService dbService = new DatabaseService();
+                    dbService.importData();
                 }
             }
         );
