@@ -41,21 +41,20 @@ public class DatabaseService {
         JFrame frame = new JFrame();
         JFileChooser chooser = new JFileChooser();
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        chooser.addChoosableFileFilter(new FileNameExtensionFilter("Threats", ".th"));
+        chooser.setAcceptAllFileFilterUsed(false);
+        chooser.addChoosableFileFilter(new FileNameExtensionFilter("Threats", "th"));
         chooser.showOpenDialog(frame);
         if (chooser.getSelectedFile() != null) {
-            String path = chooser.getSelectedFile().getAbsolutePath() + "/registros.th";
+            String path = chooser.getSelectedFile().getAbsolutePath();
             try {
-                FileOutputStream fs = new FileOutputStream(path);
-                DataOutputStream ds = new DataOutputStream(fs);
-                ThreatService th = new ThreatService();
-                List<Threat> colecao = th.list();
-                for (Threat t : colecao) {
-                    ds.writeInt(t.getID());
-                    ds.writeInt(t.getTypeID());
-                    ds.writeInt(t.getCriticallyLevelID());
-                    ds.writeUTF(t.getCVE());
-                    ds.writeUTF(t.getDiscoveryDate());
+                FileInputStream fs = new FileInputStream(path);
+                DataInputStream ds = new DataInputStream(fs);
+                while (ds.available() > 0) {
+                    System.out.println("ID: " + ds.readInt());
+                    System.out.println("getTypeID: " + ds.readInt());
+                    System.out.println("getCriticallyLevelID: " + ds.readInt());
+                    System.out.println("getCVE: " + ds.readUTF());
+                    System.out.println("getDiscoveryDate: " + ds.readUTF());
                 }
                 ds.close();
                 fs.close();
