@@ -4,10 +4,8 @@ import Ameaca.Entities.*;
 import Ameaca.Services.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.HeadlessException;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -312,21 +310,45 @@ public class ListGUI extends GUI {
 
         JTextField nameField = new JTextField();
         nameField.setText("Nome do produto...");
-        nameField.setBounds(130, 330, 200, 35);
+        nameField.setBounds(130, 315, 200, 35);
 
         JTextField versionField = new JTextField();
-        versionField.setBounds(340, 330, 100, 35);
+        versionField.setBounds(340, 315, 100, 35);
 
-        JButton enviar = new JButton("00");
-        enviar.setText("Pesquisar");
-        enviar.setBounds(450, 330, 100, 35);
+        JButton searchButton = new JButton("Pesquisar");
+        searchButton.setBounds(450, 315, 100, 35);
+
+        JButton importButton = new JButton("Importar");
+        importButton.setBounds(230, 370, 100, 30);
+
+        JButton exportButton = new JButton("Exportar");
+        exportButton.setBounds(350, 370, 100, 30);
 
         JPanel searchPane = new JPanel();
         searchPane.setLayout(null);
         searchPane.add(nameField);
         searchPane.add(versionField);
-        searchPane.add(enviar);
-        enviar.addActionListener(
+        searchPane.add(searchButton);
+        searchPane.add(importButton);
+        searchPane.add(exportButton);
+
+        searchButton.addActionListener(
+            new ActionListener() {
+                public void actionPerformed(ActionEvent ae) {
+                    search(nameField.getText(), versionField.getText());
+                }
+            }
+        );
+
+        importButton.addActionListener(
+            new ActionListener() {
+                public void actionPerformed(ActionEvent ae) {
+                    search(nameField.getText(), versionField.getText());
+                }
+            }
+        );
+
+        importButton.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
                     search(nameField.getText(), versionField.getText());

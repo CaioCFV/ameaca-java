@@ -1,6 +1,8 @@
 package Ameaca;
 
 import Ameaca.Views.*;
+// import com.formdev.flatlaf.FlatDarkLaf;
+import javax.swing.UIManager;
 
 // 6. baixar patch de uma ameaca
 

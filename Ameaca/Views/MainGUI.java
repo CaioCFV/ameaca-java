@@ -13,7 +13,11 @@ public class MainGUI extends JFrame {
     private static CardLayout layout = new CardLayout();
 
     public MainGUI() {
-        setDefaultLookAndFeelDecorated(true);
+        try {
+            UIManager.setLookAndFeel("com.formdev.flatlaf.intellijthemes.FlatArcOrangeIJTheme");
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
         setTitle("Registro de ameaças");
         setSize(700, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
