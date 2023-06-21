@@ -5,6 +5,7 @@ import Ameaca.Services.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,7 +13,10 @@ import javax.swing.border.EmptyBorder;
 public class ProductGUI extends GUI {
 
     private JPanel panel = new JPanel(new BorderLayout());
-    private JButton menuButton = new JButton("cadastra produto");
+    ImageIcon imgicon = new ImageIcon("icone-registro-produto.png");
+    Image image = imgicon.getImage();
+    Image newimg = image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+    private JButton menuButton = new JButton(new ImageIcon(newimg));
 
     private JTextField createTextField(JPanel p, String rotulo, int largura) {
         JPanel pnl = new JPanel(new FlowLayout(FlowLayout.LEFT));

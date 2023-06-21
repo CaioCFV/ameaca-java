@@ -39,9 +39,11 @@ public class MainGUI extends JFrame {
             ProductGUI pGUI = new ProductGUI();
             ThreatGUI tGUI = new ThreatGUI();
             ListGUI lGUi = new ListGUI();
+            AboutGUI aGUI = new AboutGUI();
             addPage(lGUi.getPanel(), lGUi.getMenuButton(), "screen1");
             addPage(pGUI.getPanel(), pGUI.getMenuButton(), "screen2");
             addPage(tGUI.getPanel(), tGUI.getMenuButton(), "screen3");
+            addPage(aGUI.getPanel(), aGUI.getMenuButton(), "screen4");
         } catch (BussinesException err) {
             JOptionPane.showMessageDialog(
                 null,

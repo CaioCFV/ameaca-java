@@ -6,6 +6,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,10 @@ import javax.swing.border.EmptyBorder;
 public class ListGUI extends GUI {
 
     private JPanel panel = new JPanel(new BorderLayout());
-    private JButton menuButton = new JButton("Lista de ameaças");
+    ImageIcon imgicon = new ImageIcon("icone-lista.png");
+    Image image = imgicon.getImage();
+    Image newimg = image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+    private JButton menuButton = new JButton(new ImageIcon(newimg));
     private JPanel wrapper = new JPanel();
     private ThreatService threatService = new ThreatService();
 
