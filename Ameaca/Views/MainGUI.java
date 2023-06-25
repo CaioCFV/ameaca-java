@@ -89,6 +89,8 @@ public class MainGUI extends JFrame {
                         p2 = new ProductGUI().getPanel();
                     } else if (n == "screen3") {
                         p2 = new ThreatGUI().getPanel();
+                    } else if (n == "screen4") {
+                        p2 = new AboutGUI().getPanel();
                     }
                     cards.add(n, p2);
                     cards.updateUI();

@@ -314,19 +314,19 @@ public class ListGUI extends GUI {
 
         JTextField nameField = new JTextField();
         nameField.setText("Nome do produto...");
-        nameField.setBounds(130, 315, 200, 35);
+        nameField.setBounds(130, 310, 200, 35);
 
         JTextField versionField = new JTextField();
-        versionField.setBounds(340, 315, 100, 35);
+        versionField.setBounds(340, 310, 100, 35);
 
         JButton searchButton = new JButton("Pesquisar");
-        searchButton.setBounds(450, 315, 100, 35);
+        searchButton.setBounds(450, 310, 100, 35);
 
         JButton importButton = new JButton("Importar");
-        importButton.setBounds(230, 370, 100, 30);
+        importButton.setBounds(220, 360, 100, 30);
 
         JButton exportButton = new JButton("Exportar");
-        exportButton.setBounds(350, 370, 100, 30);
+        exportButton.setBounds(330, 360, 100, 30);
 
         JPanel searchPane = new JPanel();
         searchPane.setLayout(null);

@@ -1,13 +1,11 @@
 package Ameaca.Views;
 
-import Ameaca.Entities.*;
-import Ameaca.Services.*;
+import java.awt.ComponentOrientation;
+import java.awt.FlowLayout;
 import java.awt.Image;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
 public class AboutGUI extends GUI {
 
@@ -25,5 +23,24 @@ public class AboutGUI extends GUI {
         return panel;
     }
 
-    public AboutGUI() {}
+    public AboutGUI() {
+        panel.setLayout(null);
+        ImageIcon imgicon = new ImageIcon("logofaeterj.png");
+        Image image = imgicon.getImage();
+        Image newimg = image.getScaledInstance(150, 150, java.awt.Image.SCALE_SMOOTH);
+        JLabel imageWrapp = new JLabel(new ImageIcon(newimg));
+        imageWrapp.setBounds(230, 20, 200, 200);
+        JTextArea text = new JTextArea();
+        text.setText(
+            "Trabalho desenvolvido em 2023 no curso de Programação em Java, com intuito de registrar possíveis ameaças de aplicações.\n\nDesenvolvido por Caio F. Vieira"
+        );
+        text.setWrapStyleWord(true);
+        text.setLineWrap(true);
+        text.setEditable(false);
+        text.setComponentOrientation(ComponentOrientation.UNKNOWN);
+
+        text.setBounds(40, 220, 400, 100);
+        panel.add(imageWrapp);
+        panel.add(text);
+    }
 }

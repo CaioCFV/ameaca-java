@@ -88,14 +88,14 @@ public class ThreatGUI extends GUI {
         dateFieldDay.setHorizontalAlignment(JTextField.CENTER);
 
         JLabel dateSeparator1 = new JLabel(" / ");
-        dateSeparator1.setBounds(185, 140, 10, 15);
+        dateSeparator1.setBounds(185, 140, 12, 15);
 
         JTextFieldNumbers dateFieldMonth = new JTextFieldNumbers(2);
         dateFieldMonth.setBounds(200, 133, 30, 30);
         dateFieldMonth.setHorizontalAlignment(JTextField.CENTER);
 
         JLabel dateSeparator2 = new JLabel(" / ");
-        dateSeparator2.setBounds(233, 140, 10, 15);
+        dateSeparator2.setBounds(233, 140, 12, 15);
 
         JTextFieldNumbers dateFieldYear = new JTextFieldNumbers(4);
         dateFieldYear.setBounds(245, 133, 50, 30);

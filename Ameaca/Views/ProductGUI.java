@@ -12,7 +12,7 @@ import javax.swing.border.EmptyBorder;
 
 public class ProductGUI extends GUI {
 
-    private JPanel panel = new JPanel(new BorderLayout());
+    private JPanel panel = new JPanel();
     ImageIcon imgicon = new ImageIcon("icone-registro-produto.png");
     Image image = imgicon.getImage();
     Image newimg = image.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
@@ -45,6 +45,7 @@ public class ProductGUI extends GUI {
         titleWrapper.add(new JLabel("Insira os dados do produto"));
 
         JPanel inputWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        inputWrapper.setBounds(130, 310, 200, 35);
         inputWrapper.setBorder(new EmptyBorder(10, 50, 10, 10));
         nameField = createTextField(inputWrapper, "Nome do produto", 15);
         versionField = createTextField(inputWrapper, "Versão do produto", 15);
@@ -57,9 +58,9 @@ public class ProductGUI extends GUI {
         JLabel feedback = new JLabel();
         buttonWrapper.add(feedback);
 
-        panel.add(titleWrapper, BorderLayout.NORTH);
-        panel.add(inputWrapper, BorderLayout.CENTER);
-        panel.add(buttonWrapper, BorderLayout.SOUTH);
+        panel.add(titleWrapper);
+        panel.add(inputWrapper);
+        panel.add(buttonWrapper);
         panel.setVisible(true);
         submit.addActionListener(
             new ActionListener() {
