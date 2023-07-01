@@ -73,8 +73,46 @@ public class ThreatService {
         rep.delete(ID);
     }
 
-    public void update(Threat t) {
-        rep.update(t);
+    public boolean update(Threat t) {
+        try {
+            CVEyear = t.getCVE().split("-")[1];
+            code = t.getCVE().split("-")[2];
+            day = t.getDiscoveryDate().split("/")[0];
+            month = t.getDiscoveryDate().split("/")[1];
+            year = t.getDiscoveryDate().split("/")[2];
+            if (Integer.parseInt(CVEyear) < 1950 || Integer.parseInt(CVEyear) > 2050) {
+                throw new BussinesException("Ano do CVE inválido");
+            } else if (code.length() < 5) {
+                throw new BussinesException("Código do CVE precisa ter 5 digitos.");
+            } else if (Integer.parseInt(day) > 30 || Integer.parseInt(day) < 1) {
+                throw new BussinesException("Dia inválido");
+            } else if (Integer.parseInt(month) > 12 || Integer.parseInt(month) < 1) {
+                throw new BussinesException("Mês inválido");
+            } else if (Integer.parseInt(year) < 1950 || Integer.parseInt(year) > 2050) {
+                throw new BussinesException("Ano inválido");
+            } else if (hasCVE(t.getCVE())) {
+                throw new BussinesException("Este CVE já existe");
+            } else {
+                rep.update(t);
+                return true;
+            }
+        } catch (BussinesException err) {
+            JOptionPane.showMessageDialog(
+                null,
+                err.getMessage(),
+                "Erro",
+                JOptionPane.WARNING_MESSAGE
+            );
+            return false;
+        } catch (Exception err) {
+            JOptionPane.showMessageDialog(
+                null,
+                "Erro não esperado! entre em contato com os desenvolvedores\n\n" + err.getMessage(),
+                "Erro Crítico",
+                JOptionPane.ERROR_MESSAGE
+            );
+            return false;
+        }
     }
 
     public void removeProducts(Threat t) {

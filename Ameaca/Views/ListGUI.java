@@ -285,14 +285,21 @@ public class ListGUI extends GUI {
                     t.setTypeID(typeID);
 
                     ThreatService threatService = new ThreatService();
-                    threatService.update(t);
-                    threatService.removeProducts(t);
-                    MainGUI.updatePage(1);
-                    for (JCheckBox checkbox : buttons) {
-                        if (checkbox.isSelected()) {
-                            int productID = Integer.parseInt((checkbox.getActionCommand()));
-                            threatService.addProduct(t, productID);
+                    if (threatService.update(t)) {
+                        threatService.removeProducts(t);
+                        MainGUI.updatePage(1);
+                        for (JCheckBox checkbox : buttons) {
+                            if (checkbox.isSelected()) {
+                                int productID = Integer.parseInt((checkbox.getActionCommand()));
+                                threatService.addProduct(t, productID);
+                            }
                         }
+                        JOptionPane.showMessageDialog(
+                            null,
+                            "Sucesso",
+                            "Atualizado com sucesso.",
+                            JOptionPane.INFORMATION_MESSAGE
+                        );
                     }
                 }
             }
