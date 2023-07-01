@@ -2,7 +2,6 @@ package Ameaca.Views;
 
 import Ameaca.Entities.*;
 import Ameaca.Services.*;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
@@ -39,52 +38,45 @@ public class ProductGUI extends GUI {
     }
 
     public ProductGUI() {
-        JTextField nameField, versionField;
-        JPanel titleWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        titleWrapper.setBorder(new EmptyBorder(10, 50, 10, 10));
-        titleWrapper.add(new JLabel("Insira os dados do produto"));
+        panel.setLayout(null);
+        JLabel titleWrapper = new JLabel("Insira os dados do produto");
+        titleWrapper.setBounds(30, 20, 170, 15);
 
-        JPanel inputWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        inputWrapper.setBounds(130, 310, 200, 35);
-        inputWrapper.setBorder(new EmptyBorder(10, 50, 10, 10));
-        nameField = createTextField(inputWrapper, "Nome do produto", 15);
-        versionField = createTextField(inputWrapper, "Versão do produto", 15);
+        JLabel labelProductName = new JLabel("Nome do produto");
+        labelProductName.setBounds(30, 60, 170, 15);
 
-        JPanel buttonWrapper = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        buttonWrapper.setBorder(new EmptyBorder(50, 50, 50, 50));
-        JButton submit = new JButton("Enviar");
-        buttonWrapper.add(submit);
+        JTextField nameField = new JTextField();
+        nameField.setBounds(150, 53, 150, 30);
 
-        JLabel feedback = new JLabel();
-        buttonWrapper.add(feedback);
+        JLabel labelVersion = new JLabel("Versão do produto");
+        labelVersion.setBounds(30, 106, 170, 15);
+
+        JTextField versionField = new JTextField();
+        versionField.setBounds(150, 103, 150, 30);
+
+        JButton submit = new JButton("CADASTRAR");
+        submit.setBounds(210, 180, 250, 30);
 
         panel.add(titleWrapper);
-        panel.add(inputWrapper);
-        panel.add(buttonWrapper);
-        panel.setVisible(true);
+        panel.add(labelProductName);
+        panel.add(nameField);
+        panel.add(labelVersion);
+        panel.add(versionField);
+        panel.add(submit);
+
         submit.addActionListener(
             new ActionListener() {
                 public void actionPerformed(ActionEvent ae) {
-                    Product product = new Product();
                     String txtName = nameField.getText().trim();
                     String txtVersion = versionField.getText().toLowerCase().trim();
-                    ProductService productService = new ProductService();
 
-                    if (!productService.exists(txtName, txtVersion)) {
-                        VersionService versionService = new VersionService();
-                        Version v = new Version();
-                        if (!versionService.exists(txtVersion)) {
-                            v.setName(txtVersion);
-                            v = versionService.add(v);
-                        } else {
-                            v = versionService.getVersion(txtVersion).get(0);
-                        }
-                        product.setName(txtName);
-                        product.setVersionID(v.getID());
-                        productService.add(product);
-                        showSuccess("Sucesso", "O produto foi cadastrado com sucesso!");
+                    if (txtName.isEmpty() || txtVersion.isEmpty()) {
+                        showError("Campos vazios", "Por favor, preencha todos os campos");
                     } else {
-                        showError("Erro", "O produto informado já existe!");
+                        Product product = new Product();
+                        ProductService productService = new ProductService();
+                        product.setName(txtName);
+                        productService.add(product, txtVersion);
                     }
                 }
             }

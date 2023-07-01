@@ -79,7 +79,6 @@ public class ThreatGUI extends GUI {
         panel.add(cveSeparator);
         panel.add(cveFieldYear);
 
-        // DATE
         JLabel labelDate = new JLabel("Data da descoberta");
         labelDate.setBounds(30, 140, 130, 15);
 
@@ -107,7 +106,6 @@ public class ThreatGUI extends GUI {
         panel.add(dateSeparator2);
         panel.add(dateFieldYear);
 
-        //CRITICALLY
         JLabel labelCritic = new JLabel("Nível de criticidade");
         labelCritic.setBounds(30, 185, 150, 15);
         panel.add(labelCritic);
@@ -128,7 +126,6 @@ public class ThreatGUI extends GUI {
             panel.add(r);
         }
 
-        //TYPES
         JPanel wrapperOptions = new JPanel();
         wrapperOptions.setLayout(new BoxLayout(wrapperOptions, BoxLayout.Y_AXIS));
 
@@ -161,7 +158,6 @@ public class ThreatGUI extends GUI {
         scrollPane.setBounds(350, 40, 250, 70);
         panel.add(scrollPane);
 
-        //PRODUCTS
         JLabel labelProduct = new JLabel("Quais produtos essa ameaça afeta ?");
         labelProduct.setBounds(350, 130, 250, 15);
         wrapperOptions = new JPanel();
@@ -209,13 +205,19 @@ public class ThreatGUI extends GUI {
                     t.setCriticallyLevelID(criticallyID);
                     t.setTypeID(typeID);
 
-                    ThreatService threatService = new ThreatService();
-                    t = threatService.add(t);
-
-                    for (JCheckBox checkbox : buttons) {
-                        if (checkbox.isSelected()) {
-                            int productID = Integer.parseInt((checkbox.getActionCommand()));
-                            threatService.addProduct(t, productID);
+                    if (t.getCVE().length() < 10 || t.getDiscoveryDate().length() < 10) {
+                        showError("Erro", "Os campos ser preenchidos");
+                    } else {
+                        ThreatService threatService = new ThreatService();
+                        t = threatService.add(t);
+                        if (t != null) {
+                            for (JCheckBox checkbox : buttons) {
+                                if (checkbox.isSelected()) {
+                                    int productID = Integer.parseInt((checkbox.getActionCommand()));
+                                    threatService.addProduct(t, productID);
+                                }
+                            }
+                            showSuccess("Sucesso", "Ameaça cadastrada com sucesso!");
                         }
                     }
                 }

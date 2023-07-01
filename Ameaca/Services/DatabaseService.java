@@ -2,7 +2,6 @@ package Ameaca.Services;
 
 import Ameaca.Entities.*;
 import java.io.*;
-import java.util.LinkedList;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -63,29 +62,5 @@ public class DatabaseService {
                 System.exit(0);
             }
         }
-        // try {
-        //     File f = new File(_nomeArq);
-        //     List<DVD> lista = new LinkedList<DVD>();
-        //     if (f.exists()) {
-        //         FileInputStream fs = new FileInputStream(f);
-        //         DataInputStream ds = new DataInputStream(fs);
-        //         while (ds.available() > 0) {
-        //             DVD d = new DVD();
-        //             d.setCodigo(ds.readInt());
-        //             d.setTitulo(ds.readUTF());
-        //             d.setEstilo(ds.readUTF());
-        //             d.setAno(ds.readInt());
-        //             d.setDuracao(ds.readInt());
-        //             lista.add(d);
-        //         }
-        //         ds.close();
-        //         fs.close();
-        //     }
-        //     return lista;
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        //     System.exit(0);
-        //     return null;
-        // }
     }
 }

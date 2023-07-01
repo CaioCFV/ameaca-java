@@ -1,11 +1,8 @@
 package Ameaca.Views;
 
 import java.awt.ComponentOrientation;
-import java.awt.FlowLayout;
 import java.awt.Image;
 import javax.swing.*;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 
 public class AboutGUI extends GUI {
 

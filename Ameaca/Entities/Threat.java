@@ -1,18 +1,9 @@
 package Ameaca.Entities;
 
-// numero do CVE (ex: CVE-2023-31145)
-// Tipo da ameaca (tipo de ameaca (Spam, Worm, Virus, Trrojan, DDOS,  Ramsoware, etc...)
-// Data  (data da descoberta)
-// Criticidade (nivel de citicidade)
-// PathCorrecao (arquivo a ser executado para resolver) (arquivo zip)
-// Solucao (texto grande contendo os passos para resolver)
-// Consequencia (PDF com as possiveis consequencias se esta ameaca nao for mitigada)
-
 public class Threat {
 
     private String cve, discovery_date;
     private int critically_level_id, type_id;
-    //private Blob consequence, solution;
     private int id;
 
     public String getCVE() {

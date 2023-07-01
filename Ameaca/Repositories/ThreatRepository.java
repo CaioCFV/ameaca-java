@@ -151,6 +151,27 @@ public class ThreatRepository {
         }
     }
 
+    public boolean hasCVE(String s) {
+        ResultSet rs;
+        boolean result = false;
+        try {
+            connection = db.getConnection();
+            PreparedStatement statement = connection.prepareStatement(
+                "select * from threat where cve=?"
+            );
+            statement.setString(1, s);
+            rs = statement.executeQuery();
+            if (rs.next()) {
+                result = true;
+            }
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+            return false;
+        }
+    }
+
     public void removeProducts(Threat t) {
         try {
             connection = db.getConnection();

@@ -152,7 +152,6 @@ public class ListGUI extends GUI {
         dialog.add(cveSeparator);
         dialog.add(cveFieldYear);
 
-        // DATE
         JLabel labelDate = new JLabel("Data da descoberta:");
         labelDate.setBounds(20, 63, 130, 15);
 
@@ -184,7 +183,6 @@ public class ListGUI extends GUI {
         dialog.add(dateSeparator2);
         dialog.add(dateFieldYear);
 
-        //CRITICALLY
         JLabel labelCritic = new JLabel("Nível de criticidade");
         labelCritic.setBounds(20, 100, 150, 15);
         dialog.add(labelCritic);
@@ -205,7 +203,6 @@ public class ListGUI extends GUI {
             dialog.add(r);
         }
 
-        //TYPES
         JPanel wrapperOptions = new JPanel();
         wrapperOptions.setLayout(new BoxLayout(wrapperOptions, BoxLayout.Y_AXIS));
         wrapperOptions.setVisible(true);
@@ -221,7 +218,6 @@ public class ListGUI extends GUI {
                 tBox.setSelected(true);
             }
             tBox.setActionCommand("" + t.getID());
-            //tBox.setBorder(new EmptyBorder(5, 10, 5, 10));
             typeField.add(tBox);
             wrapperOptions.add(tBox);
         }
@@ -234,7 +230,6 @@ public class ListGUI extends GUI {
         scrollPane.setBounds(300, 10, 150, 100);
         dialog.add(scrollPane);
 
-        //PRODUCTS
         JLabel labelProduct = new JLabel("Quais produtos essa ameaça afeta ?");
         labelProduct.setBounds(300, 130, 150, 15);
         wrapperOptions = new JPanel();

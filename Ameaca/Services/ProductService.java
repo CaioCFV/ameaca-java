@@ -20,7 +20,7 @@ public class ProductService {
         return rep.exists(name, version);
     }
 
-    public void add(Product p) {
+    public void add(Product p, String v) {
         rep.insert(p);
     }
 }
