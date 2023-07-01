@@ -76,7 +76,9 @@ public class ProductGUI extends GUI {
                         Product product = new Product();
                         ProductService productService = new ProductService();
                         product.setName(txtName);
-                        productService.add(product, txtVersion);
+                        if (productService.add(product, txtVersion)) {
+                            showSuccess("Sucesso", "Produto cadastrado com sucesso");
+                        }
                     }
                 }
             }

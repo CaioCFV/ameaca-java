@@ -12,7 +12,7 @@ public class ProductRepository {
     private DatabaseConnection db = new DatabaseConnection();
     private Connection connection;
 
-    public void insert(Product p) {
+    public boolean insert(Product p) {
         try {
             connection = db.getConnection();
             PreparedStatement statement = connection.prepareStatement(
@@ -22,9 +22,11 @@ public class ProductRepository {
             statement.setInt(2, p.getVersionID());
             statement.executeUpdate();
             db.closeConection();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
+            return false;
         }
     }
 

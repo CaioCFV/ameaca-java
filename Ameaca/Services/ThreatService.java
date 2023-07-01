@@ -31,8 +31,9 @@ public class ThreatService {
                 throw new BussinesException("Ano inválido");
             } else if (hasCVE(t.getCVE())) {
                 throw new BussinesException("Este CVE já existe");
+            } else {
+                return rep.insert(t);
             }
-            return rep.insert(t);
         } catch (BussinesException err) {
             JOptionPane.showMessageDialog(
                 null,
